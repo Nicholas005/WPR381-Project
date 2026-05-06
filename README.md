@@ -59,11 +59,11 @@ Advanced Events (Pty) Ltd previously relied on manual spreadsheets and disconnec
 
 | Name | Student Number | Role | Responsibilities |
 |---|---|---|---|
-| [Name 1] | [ST######] | Team Lead / Project Coordinator | Project planning, integration, Git management, README |
-| [Name 2] | [ST######] | Backend Developer | Express routes, controllers, middleware, API logic |
-| [Name 3] | [ST######] | Frontend Developer | EJS views, CSS styling, layout, responsiveness |
-| [Name 4] | [ST######] | Database Engineer | Mongoose schemas, relationships, seed data |
-| [Name 5] | [ST######] | Security / DevOps Engineer | Auth middleware, bcrypt, RBAC, session handling, .env |
+| [Nicholas Vronka] | [601596] | Team Lead / Project Coordinator/ Full Stack Supporter | Project planning, integration, Git management, README, supporting other team members as needed |
+| [Richo Labuschagne] | [601759] | Backend Developer | Express routes, controllers, middleware, API logic |
+| [Tshiamo Maise] | [ST######] | Frontend Developer | EJS views, CSS styling, layout, responsiveness |
+| [Michael Brian Cheyne] | [ST######] | Database Engineer | Mongoose schemas, relationships, seed data |
+| [Clarissa Bierman] | [ST######] | Security / DevOps Engineer | Auth middleware, bcrypt, RBAC, session handling, .env |
 
 ---
 
