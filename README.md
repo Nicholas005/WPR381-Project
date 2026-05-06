@@ -59,11 +59,11 @@ Advanced Events (Pty) Ltd previously relied on manual spreadsheets and disconnec
 
 | Name | Student Number | Role | Responsibilities |
 |---|---|---|---|
-| [Nicholas Vronka] | [601596] | Team Lead / Project Coordinator/ Full Stack Supporter | Project planning, integration, Git management, README, supporting other team members as needed |
-| [Richo Labuschagne] | [601759] | Backend Developer | Express routes, controllers, middleware, API logic |
-| [Tshiamo Maise] | [ST######] | Frontend Developer | EJS views, CSS styling, layout, responsiveness |
-| [Michael Brian Cheyne] | [ST######] | Database Engineer | Mongoose schemas, relationships, seed data |
-| [Clarissa Bierman] | [ST######] | Security / DevOps Engineer | Auth middleware, bcrypt, RBAC, session handling, .env |
+| Nicholas Vronka | 601596 | Team Lead / Project Coordinator/ Full Stack Supporter | Project planning, integration, Git management, README, supporting other team members as needed |
+| Richo Labuschagne | 601759 | Backend Developer | Express routes, controllers, middleware, API logic |
+| Tshiamo Maise | 602178 | Frontend Developer | EJS views, CSS styling, layout, responsiveness |
+| Michael Brian Cheyne | 602441 | Database Engineer | Mongoose schemas, relationships, seed data |
+| Clarissa Bierman | 602008 | Security / DevOps Engineer | Auth middleware, bcrypt, RBAC, session handling, .env |
 
 ---
 
@@ -132,7 +132,7 @@ Ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/[your-org]/smart-event-platform.git
+git clone https://github.com/Nicholas005/WPR381-Project
 cd smart-event-platform
 ```
 
@@ -172,8 +172,8 @@ npm run seed
 ```
 
 > Default admin credentials after seeding:
-> - **Email:** `admin@advancedevents.co.za`
-> - **Password:** `Admin@123`
+> - **Email:** `admin@advancedeventsWPR381.co.za`
+> - **Password:** `Admin@381`
 
 ### 5. Start the Development Server
 
@@ -269,7 +269,7 @@ npm start
 
 ## 🔗 GitHub Repository
 
-**Repository URL:** `https://github.com/[your-org]/smart-event-platform`
+**Repository URL:** `https://github.com/Nicholas005/WPR381-Project`
 
 All team members have contributed via individual branches, with meaningful commit messages following the format:
 ```
@@ -297,15 +297,7 @@ docs: update README setup section
 ## 💡 Reflection
 
 > *(Optional — complete as a team before submission)*
-
-Building this platform gave us practical experience implementing an industry-standard MVC architecture under real-world constraints. Key learning outcomes included:
-
-- Designing and enforcing role-based middleware in Express.js
-- Managing relational-like data structures in a NoSQL MongoDB environment using Mongoose references
-- Preventing race conditions in ticket capacity using atomic validation logic
-- Collaborating effectively as a team using Git branching strategies and pull requests
-
-Challenges we encountered included handling concurrent booking requests and structuring EJS partials for code reuse. These were resolved through team code reviews and iterative refactoring.
+TBD
 
 ---
 
