@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { type } = require("node:os");
 
 const InquirySchema = new mongoose.Schema({
   UserID: {

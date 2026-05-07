@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { type } = require("node:os");
 
 const EventSchema = new mongoose.Schema({
   Capacity: { type: Number, required: true },
