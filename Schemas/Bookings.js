@@ -17,4 +17,12 @@ const BookingSchema = new mongoose.Schema({
   Tickets: { type: Number, required: true }
 });
 
-module.exports = mongoose.model("Booking", BookingSchema);
+module.exports = mongoose.model("Bookings", BookingSchema);
+
+/*
+should be able to be imported using the following line
+const Booking = require('./Schemas/Booking');
+
+then you can query the collection such as this:
+const allBookings = await Booking.find();
+*/

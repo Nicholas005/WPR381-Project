@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { type } = require("node:os");
 
-const InquirySchema = new mongoose.Schema({
+const EnquirySchema = new mongoose.Schema({
   UserID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",          // References the User collection like a foreign key from an ERD
@@ -10,4 +10,12 @@ const InquirySchema = new mongoose.Schema({
   Enquiry: { type: String, required: true }
 });
 
-module.exports = mongoose.model("Inquiry", InquirySchema);
+module.exports = mongoose.model("Enquiries", EnquirySchema);
+
+/*
+import as
+const Enquiry = require('./Schemas/Enquiries');
+
+queried as:
+const allEnquiries = await Enquiry.find();
+*/

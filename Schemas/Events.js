@@ -8,4 +8,12 @@ const EventSchema = new mongoose.Schema({
   Category: { type: String, required: true }
 });
 
-module.exports = mongoose.model("Event", EventSchema);
+module.exports = mongoose.model("Events", EventSchema);
+
+/*
+import as
+const Event = require('./Schemas/Events');
+
+queried as:
+const allEvents = await Event.find();
+*/

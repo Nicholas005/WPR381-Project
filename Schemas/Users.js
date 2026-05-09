@@ -8,4 +8,12 @@ const UserSchema = new mongoose.Schema({
   Password: {type: String, Required: true }
 });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("Users", UserSchema);
+
+/*
+import as
+const User = require('./Schemas/Users');
+
+queried as:
+const allUsers = await User.find();
+*/
