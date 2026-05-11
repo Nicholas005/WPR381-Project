@@ -1,0 +1,62 @@
+
+<main class="auth-container fade-in">
+    <%# This card holds both the login and registration forms %>
+    <div class="auth-card">
+        <div class="auth-tabs">
+            <%# Buttons that trigger the JavaScript function to swap forms %>
+            <button class="auth-tab active" onclick="toggleAuth('login')">LOGIN</button>
+            <button class="auth-tab" onclick="toggleAuth('register')">REGISTER</button>
+        </div>
+
+        <%# Login form: sends data to the server via POST for security %>
+        <form id="login-form" action="/auth/login" method="POST" class="auth-form">
+            <h2 class="footer-heading">Access Portal</h2>
+            <div class="input-group">
+                <i class="bi bi-envelope"></i>
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <i class="bi bi-lock"></i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn-primary w-100">SIGN IN</button>
+        </form>
+
+        <%# Registration form: Hidden by default until the user clicks Register %>
+        <form id="register-form" action="/auth/register" method="POST" class="auth-form" style="display: none;">
+            <h2 class="footer-heading">New Account</h2>
+            <div class="input-group">
+                <i class="bi bi-person"></i>
+                <input type="text" name="name" placeholder="Full Name" required>
+            </div>
+            <div class="input-group">
+                <i class="bi bi-lock"></i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn-primary w-100">JOIN NOW</button>
+        </form>
+    </div>
+</main>
+
+<script>
+    /* This function toggles the CSS display property between block and none */
+    function toggleAuth(type) {
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const tabs = document.querySelectorAll('.auth-tab');
+        
+        if (type === 'login') {
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            tabs[0].classList.add('active');
+            tabs[1].classList.remove('active');
+        } else {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            tabs[1].classList.add('active');
+            tabs[0].classList.remove('active');
+        }
+    }
+</script>
+
+<%- include('footer') %>

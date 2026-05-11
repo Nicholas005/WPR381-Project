@@ -1,0 +1,106 @@
+<footer class="footer">
+  <div class="container">
+    
+    <div class="footer-grid">
+      
+      <div class="footer-brand-info">
+        <a href="/" class="navbar-brand">
+          <div class="brand-icon">
+            <i class="bi bi-lightning-charge-fill"></i>
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Advanced Events</span>
+            <span class="brand-sub">Smart Ticketing</span>
+          </div>
+        </a>
+        <p class="footer-brand-desc">
+          Building the future of event management with secure and smart ticketing solutions.
+        </p>
+        
+        <div class="footer-social">
+          <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Explore</h4>
+        <ul class="footer-links">
+          <li><a href="/"><i class="bi bi-chevron-right"></i> Home</a></li>
+          <li><a href="/events"><i class="bi bi-chevron-right"></i> All Events</a></li>
+          <li><a href="/contact"><i class="bi bi-chevron-right"></i> Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Account</h4>
+        <ul class="footer-links">
+          <li><a href="/auth/login"><i class="bi bi-chevron-right"></i> Sign In</a></li>
+          <li><a href="/auth/register"><i class="bi bi-chevron-right"></i> Register</a></li>
+          <li><a href="/dashboard"><i class="bi bi-chevron-right"></i> My Dashboard</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Get in Touch</h4>
+        <div class="footer-contact-item">
+          <i class="bi bi-geo-alt icon"></i>
+          <span>123 Tech Avenue, Sandton, Johannesburg</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="bi bi-envelope icon"></i>
+          <span>support@advancedevents.co.za</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <p class="footer-copyright">
+          &copy; 2026 <span>Advanced Events</span>. All rights reserved.
+        </p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  // Mobile Menu Toggle
+  const menuBtn = document.getElementById('navbarToggle');
+  const menu = document.getElementById('navbarMenu');
+
+  if (menuBtn) {
+    menuBtn.addEventListener('click', () => {
+      menu.classList.toggle('open');
+      // Change burger icon to X when open
+      menuBtn.textContent = menu.classList.contains('open') ? '✕' : '☰';
+    });
+  }
+
+  // Flash Message Close Button Logic
+  document.querySelectorAll('.alert-close').forEach(button => {
+    button.addEventListener('click', () => {
+      const alert = button.parentElement;
+      alert.style.opacity = '0';
+      setTimeout(() => alert.remove(), 400);
+    });
+  });
+
+  // Automatically hide flash messages after 5 seconds
+  setTimeout(() => {
+    document.querySelectorAll('.alert').forEach(alert => {
+      alert.style.opacity = '0';
+      setTimeout(() => alert.remove(), 400);
+    });
+  }, 5000);
+</script>
+
+</body>
+</html>

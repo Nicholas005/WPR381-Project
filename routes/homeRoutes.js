@@ -4,7 +4,9 @@ const router = express.Router()
 
 //Booking
 route.get("/", (req, res) => {
-
+ res.render("index")
 })
 
 module.exports = router
+
+

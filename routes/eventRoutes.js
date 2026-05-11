@@ -1,10 +1,9 @@
 const express = require("express")
-const { route } = require("../app")
 const router = express.Router()
 
-//Admin only Event Management
-route.get("/events", () => {
-
+// Admin only Event Management
+router.get("/events", (req, res) => {
+  res.send("Events route working")
 })
 
 module.exports = router
