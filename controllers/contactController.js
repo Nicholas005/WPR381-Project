@@ -15,8 +15,8 @@ exports.postContact = async (req, res, next) => {
             message: req.body.message
         });
 
-        res.redirect("/")
+        res.render("contact", {success: "Your message has been sent successfully!"})
     } catch (err) {
-        next(err);
+        res.render("contact", {error: err.message})
     }
 }
