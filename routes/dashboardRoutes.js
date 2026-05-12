@@ -6,9 +6,11 @@ const { isAdmin }    = require("../middleware/adminMiddleware");
 const dashboardController = require("../controllers/dashboardController");
 
 //Dashboards
-router.get("/admin", isLoggedIn, isAdmin, dashboardController.getDashboard);
+router.get("/", isLoggedIn, dashboardController.dashboardRedirect)
 
-router.get("/user", isLoggedIn, dashboardController.getDashboard);
+router.get("/admin", isLoggedIn, isAdmin, dashboardController.getDashboardAdmin);
+
+router.get("/user", isLoggedIn, dashboardController.getDashboardUser);
 
 module.exports = router;
 

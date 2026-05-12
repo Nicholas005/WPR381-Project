@@ -22,7 +22,6 @@ app.use(express.static("public"));
 // Locals middleware
 app.use(setLocals);
 
-
 // Routes
 app.use('/', require("./routes/homeRoutes"))                //Home / Event Listing
 app.use('/auth', require("./routes/authRoutes"))            //User Authentication

@@ -18,21 +18,21 @@
             <div class="table-container" style="padding: 2.5rem; background: var(--cardBg); border: 1px solid var(--border);">
                 <h3 class="mb-4" style="color: var(--textPrimary); font-weight: 700; letter-spacing: -0.02em;">Send a Message</h3>
                 
-                <form action="/contact/send" method="POST">
+                <form action="/contact" method="POST">
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <label class="form-label" style="color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">Full Name</label>
-                            <input type="text" class="form-control" placeholder="John Doe" required>
+                            <input type="text" name="fullName" class="form-control" placeholder="John Doe" required>
                         </div>
                         <div class="col-md-6 mb-4">
                             <label class="form-label" style="color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">Email</label>
-                            <input type="email" class="form-control" placeholder="john@example.com" required>
+                            <input type="email" name="email" class="form-control" placeholder="john@example.com" required>
                         </div>
                     </div>
 
                     <div class="mb-4">
                         <label class="form-label" style="color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">Subject</label>
-                        <select class="form-control">
+                        <select class="form-control" name="subject">
                             <option>General Enquiry</option>
                             <option>Booking Support</option>
                             <option>Event Hosting</option>
@@ -41,7 +41,7 @@
 
                     <div class="mb-4">
                         <label class="form-label" style="color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">Message</label>
-                        <textarea class="form-control" rows="5" placeholder="How can we help you?"></textarea>
+                        <textarea class="form-control" name="message" rows="5" placeholder="How can we help you?"></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 py-3">

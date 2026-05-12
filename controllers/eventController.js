@@ -1,3 +1,3 @@
 exports.getEvent = (req, res) => {
-    res.render("");
+    res.render("admin-events");
 }
