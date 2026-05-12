@@ -5,7 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ─── Mobile Navigation Toggle ───────────────────────────────────────────────
+  // Mobile Navigation Toggle 
   const toggle = document.getElementById('navbarToggle');
   const navMenu = document.getElementById('navbarMenu');
   const navActions = document.getElementById('navbarActions');
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ─── Active Nav Link ─────────────────────────────────────────────────────────
+  // Active Nav Link 
   const currentPath = window.location.pathname;
   document.querySelectorAll('.nav-link').forEach(link => {
     const href = link.getAttribute('href');
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ─── Particle Effects ────────────────────────────────────────────────────────
+  //Particle Effects 
   const particleContainer = document.getElementById('heroParticles');
   if (particleContainer) {
     const colors = ['#b44fff', '#00d4ff', '#ff2d78', '#ffffff'];
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ─── Scroll Reveal Animations ────────────────────────────────────────────────
+  //Scroll Reveal Animations 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
-  // ─── Flash / Alert Auto-dismiss ──────────────────────────────────────────────
+  //Flash / Alert Auto-dismiss 
   document.querySelectorAll('.alert[data-autodismiss]').forEach(alert => {
     const delay = parseInt(alert.dataset.autodismiss) || 5000;
     setTimeout(() => {
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ─── Stat Counter Animations ─────────────────────────────────────────────────
+  //  Stat Counter Animations 
   const statValues = document.querySelectorAll('.stat-value[data-count]');
   if (statValues.length) {
     const statsObserver = new IntersectionObserver((entries) => {
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     statValues.forEach(el => statsObserver.observe(el));
   }
 
-  // ─── Hero Stat Counters (simple version) ─────────────────────────────────────
+  // Hero Stat Counters (simple version) 
   document.querySelectorAll('[data-target]').forEach(el => {
     const target = parseInt(el.dataset.target);
     const suffix = el.dataset.suffix || '';
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 25);
   });
 
-  // ─── Filter Form Enhancement ─────────────────────────────────────────────────
+  //  Filter Form Enhancement
   const filterForm = document.getElementById('filterForm');
   if (filterForm) {
     // Auto-submit on select change
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ─── Image Lazy Load + Error Fallback ────────────────────────────────────────
+  //  Image Lazy Load + Error Fallback 
   document.querySelectorAll('img[data-src]').forEach(img => {
     const imgObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ─── Confirm Delete ───────────────────────────────────────────────────────────
+  //  Confirm Delete
   document.querySelectorAll('[data-confirm]').forEach(el => {
     el.addEventListener('click', (e) => {
       if (!confirm(el.dataset.confirm || 'Are you sure?')) {
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ─── Scroll to top button ────────────────────────────────────────────────────
+  // Scroll to top button
   const scrollTopBtn = document.getElementById('scrollTopBtn');
   if (scrollTopBtn) {
     window.addEventListener('scroll', () => {
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ─── Glowing cursor trail (optional, desktop only) ───────────────────────────
+  //  Glowing cursor trail (optional, desktop only)
   if (window.innerWidth > 1024) {
     let trail = [];
     const maxTrail = 8;
