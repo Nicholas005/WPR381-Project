@@ -7,7 +7,7 @@ const errorMiddleware = require("./middleware/errorMiddleware");
 const { setLocals } = require("./middleware/localsMiddleware");
 
 // Connect to MongoDB
-/*connectDB();*/
+connectDB();
 
 // Middleware
 app.use(express.json());                            // parse application/json bodies
