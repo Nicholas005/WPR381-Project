@@ -7,10 +7,13 @@ const EnquirySchema = new mongoose.Schema({
     ref: "User",          // References the User collection like a foreign key from an ERD
     required: true
   },
-  Enquiry: { type: String, required: true }
+  Enquiry: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model("Enquiries", EnquirySchema);
+
+
 
 /*
 import as
