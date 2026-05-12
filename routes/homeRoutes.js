@@ -1,10 +1,9 @@
 const express = require("express")
-const { route } = require("../app")
 const router = express.Router()
 
-//Booking
-route.get("/", (req, res) => {
+const homeContoller = require("../controllers/homeController")
 
-})
+//Booking
+router.get("/", homeContoller.getHome)
 
 module.exports = router

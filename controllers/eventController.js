@@ -1,1 +1,3 @@
-const Event = require('./Schemas/Events')
+exports.getEvent = (req, res) => {
+    res.render("");
+}
