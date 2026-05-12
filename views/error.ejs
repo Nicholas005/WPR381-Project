@@ -1,0 +1,28 @@
+<%- include('header') %>
+
+<main class="container d-flex align-items-center justify-content-center" style="min-height: 70vh; margin-top: 50px;">
+    <div class="table-container fade-in text-center" style="max-width: 500px; width: 100%; padding: 3rem;">
+
+        <div class="hero-eyebrow" style="justify-content: center;">
+            <span class="hero-eyebrow-dot"></span>
+            Something went wrong
+        </div>
+
+        <h2 style="color: var(--textPrimary); font-weight: 800; margin: 1rem 0;">
+            <%= typeof message !== 'undefined' ? message : 'An unexpected error occurred.' %>
+        </h2>
+
+        <p style="color: var(--textSecondary); margin-bottom: 2rem;">
+            If this keeps happening, please contact support.
+        </p>
+
+        <a href="/" class="btn btn-primary">Back to Home</a>
+
+        <% if (typeof stack !== 'undefined' && stack) { %>
+            <pre style="margin-top: 2rem; text-align: left; font-size: 0.75rem; color: var(--textSecondary); overflow-x: auto;"><%= stack %></pre>
+        <% } %>
+
+    </div>
+</main>
+
+<%- include('footer') %>

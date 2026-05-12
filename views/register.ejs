@@ -13,7 +13,8 @@
             <span class="hero-title-line2" style="margin: 0; display: inline-block;">Movement</span>
         </h1>
 
-        <p class="hero-subtitle mx-auto events and premium features.
+        <p class="hero-subtitle mx-auto">
+            Get access to exclusive events and premium features.
         </p>
     </div>
 
@@ -21,6 +22,11 @@
         <div class="col-lg-6 col-md-8 reveal">
             <div class="table-container" style="padding: 3rem; background: var(--cardBg); border: 1px solid var(--border); box-shadow: var(--shadowLg);">
                 
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="alert alert-error" style="margin-bottom: 1.5rem;">
+                        <span><i class="bi bi-exclamation-triangle-fill"></i> <%= error %></span>
+                    </div>
+                <% } %>
                 <form action="/auth/register" method="POST">
                     <div class="mb-4">
                         <label class="form-label" style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Full Name</label>

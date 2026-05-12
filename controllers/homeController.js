@@ -1,3 +1,3 @@
 exports.getHome = (req, res) => {
-    res.render("auth");
+    res.render("index");
 }

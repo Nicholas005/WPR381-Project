@@ -11,15 +11,21 @@
             <h2 class="mt-2" style="color: var(--textPrimary); font-weight: 800;">Welcome Back</h2>
         </div>
 
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-error" style="margin-bottom: 1rem;">
+                <span><i class="bi bi-exclamation-triangle-fill"></i> <%= error %></span>
+            </div>
+        <% } %>
+
         <form action="/auth/login" method="POST">
             <div class="mb-4">
                 <label class="form-label" style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase;">Email Address</label>
-                <input type="email" class="form-control" placeholder="name@email.com" required>
+                <input type="email" name="email" class="form-control" placeholder="name@email.com" required>
             </div>
 
             <div class="mb-4">
                 <label class="form-label" style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase;">Password</label>
-                <input type="password" class="form-control" placeholder="••••••••" required>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
             </div>
 
             <button type="submit" class="btn btn-primary w-100 py-3 mb-3">
