@@ -1,0 +1,60 @@
+<%- include('header') %>
+
+<main class="section container" style="margin-top: 40px; padding-top: 0;">
+    <div class="text-center mb-5 reveal" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+        
+        <div class="hero-eyebrow" style="margin-bottom: 1.5rem;">
+            <span class="hero-eyebrow-dot"></span>
+            THE INNER CIRCLE
+        </div>
+
+        <h1 class="hero-title" style="display: flex; align-items: center; gap: 20px; white-space: nowrap; font-size: clamp(2.2rem, 7vw, 4rem); margin-bottom: 1rem;">
+            <span>Join the</span>
+            <span class="hero-title-line2" style="margin: 0; display: inline-block;">Movement</span>
+        </h1>
+
+        <p class="hero-subtitle mx-auto events and premium features.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 reveal">
+            <div class="table-container" style="padding: 3rem; background: var(--cardBg); border: 1px solid var(--border); box-shadow: var(--shadowLg);">
+                
+                <form action="/auth/register" method="POST">
+                    <div class="mb-4">
+                        <label class="form-label" style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Full Name</label>
+                        <input type="text" name="name" class="form-control" placeholder="Jade Smith" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label" style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Email Address</label>
+                        <input type="email" name="email" class="form-control" placeholder="jade@midnight.com" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label" style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label" style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Confirm Password</label>
+                        <input type="password" name="confirmPassword" class="form-control" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-3 mb-4">
+                        INITIALIZE MEMBERSHIP
+                    </button>
+                    
+                    <div class="text-center">
+                        <p style="color: var(--textSecondary); font-size: 0.9rem;">
+                            Already have an account? <a href="/auth/login" style="color: var(--textPrimary); text-decoration: none; font-weight: 600;">Sign In</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('footer') %>

@@ -1,0 +1,74 @@
+<%- include('header') %>
+
+<main class="section container" style="margin-top: 20px;padding-top: 0;">
+    <div class="text-center mb-5 reveal" style="display: flex; flex-direction: column; align-items: center;" >
+        <div class="hero-eyebrow" style="margin-bottom: 1rem;">
+            <span class="hero-eyebrow-dot"></span>
+            Reach Out
+        </div>
+        <h1 class="hero-title" style="display: flex; align-items: center; justify-content: center; gap: 15px; white-space: nowrap; flex-wrap: nowrap;"> Get in <span class="hero-title-line2">Touch</span>
+        </h1>
+        <p class="hero-subtitle mx-auto" style="margin-top: 1rem;">
+            Experience the next generation of event management.
+        </p>
+    </div>
+
+    <div class="row g-5 justify-content-center">
+        <div class="col-lg-7 reveal">
+            <div class="table-container" style="padding: 2.5rem; background: var(--cardBg); border: 1px solid var(--border);">
+                <h3 class="mb-4" style="color: var(--textPrimary); font-weight: 700; letter-spacing: -0.02em;">Send a Message</h3>
+                
+                <form action="/contact/send" method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label" style="color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">Full Name</label>
+                            <input type="text" class="form-control" placeholder="John Doe" required>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label" style="color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">Email</label>
+                            <input type="email" class="form-control" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label" style="color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">Subject</label>
+                        <select class="form-control">
+                            <option>General Enquiry</option>
+                            <option>Booking Support</option>
+                            <option>Event Hosting</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label" style="color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">Message</label>
+                        <textarea class="form-control" rows="5" placeholder="How can we help you?"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-3">
+                        🚀 SEND DISPATCH
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-4 reveal">
+            <div class="contact-info-card" style="display: flex; flex-direction: column; gap: 2rem;">
+                <div class="info-item">
+                    <h5 style="color: var(--textPrimary); margin-bottom: 0.5rem;">Main HQ</h5>
+                    <p style="color: var(--textSecondary); line-height: 1.6;">123 Innovation Drive<br>Cyber Hub, JHB</p>
+                </div>
+                
+                <div class="info-item">
+                    <h5 style="color: var(--textPrimary); margin-bottom: 0.5rem;">Direct Line</h5>
+                    <p style="color: var(--accent); font-weight: 600;">+27 11 000 0000</p>
+                </div>
+
+                <div class="float-badge-available" style="width: fit-content;">
+                    SYSTEMS ONLINE
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('footer') %>

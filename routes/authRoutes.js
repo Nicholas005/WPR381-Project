@@ -14,3 +14,4 @@ router.get("/register", authController.getRegister)
 router.post("/register", authController.postRegister)
 
 module.exports = router
+

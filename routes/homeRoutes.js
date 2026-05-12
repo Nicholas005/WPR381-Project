@@ -7,3 +7,5 @@ const homeContoller = require("../controllers/homeController")
 router.get("/", homeContoller.getHome)
 
 module.exports = router
+
+
