@@ -7,7 +7,7 @@ const errorMiddleware = require("./middleware/errorMiddleware");
 const { setLocals } = require("./middleware/localsMiddleware");
 
 // Connect to MongoDB
-connectDB();
+/*connectDB();*/
 
 // Middleware
 app.use(express.json());                            // parse application/json bodies
@@ -27,7 +27,7 @@ app.use('/', require("./routes/homeRoutes"))                //Home / Event Listi
 app.use('/auth', require("./routes/authRoutes"))            //User Authentication
 app.use('/admin', require("./routes/eventRoutes"))          //Event Management
 app.use('/dashboard', require("./routes/dashboardRoutes"))  //Booking & Dashboard
-app.use('/contact', require("./routes/contractRoutes"))     //Contact / Enquiries
+app.use('/contact', require("./routes/contactRoutes"))     //Contact / Enquiries
 
 // Error handling
 app.use(errorMiddleware.notFound)
