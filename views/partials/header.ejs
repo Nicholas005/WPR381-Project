@@ -1,99 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= typeof title !== 'undefined' ? title : 'Advanced Events' %> | Smart Ticketing</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title : 'Advanced Events' %> | Smart Ticketing</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <link rel="stylesheet" href="/style.css">
+  <!-- Google Fonts - Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Your main stylesheet -->
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
 
-<nav class="navbar" role="navigation">
-    <div class="container">
-        <div class="navbar-inner">
+<!-- Background decorative layers - sit behind everything -->
+<div class="bg-grid"></div>
+<div class="bg-orbs"></div>
 
-            <a href="/" class="navbar-brand">
-                <div class="brand-icon">
-                    <i class="bi bi-lightning-charge-fill"></i>
-                </div>
-                <div class="brand-text">
-                    <span class="brand-name">Advanced Events</span>
-                    <span class="brand-sub">Smart Ticketing System</span>
-                </div>
-            </a>
+<!-- 
+  NAVBAR
+  sticky = stays at top while scrolling
+  JS adds the .solid class when user scrolls down
+-->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
 
-            <ul class="navbar-nav" id="navbarMenu">
-                <li class="nav-item">
-                    <a href="/" class="nav-link <%= (typeof title !== 'undefined' && title === 'Home') ? 'active' : '' %>">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="/events" class="nav-link <%= (typeof title !== 'undefined' && title === 'Events') ? 'active' : '' %>">Events</a>
-                </li>
-
-                <% if (typeof user !== 'undefined' && user) { %>
-                    <li class="nav-item">
-                        <a href="/dashboard" class="nav-link">Dashboard</a>
-                    </li>
-
-                    <% if (user.role === 'admin') { %>
-                        <li class="nav-item">
-                            <a href="/admin/events" class="nav-link">
-                                <i class="bi bi-gear-fill"></i> Manage
-                            </a>
-                        </li>
-                    <% } %>
-                <% } %>
-
-                <li class="nav-item">
-                    <a href="/contact" class="nav-link">Contact</a>
-                </li>
-            </ul>
-
-            <div class="navbar-actions">
-                <% if (typeof user !== 'undefined' && user) { %>
-                    <div class="user-pill">
-                        <div class="user-avatar">
-                            <%= user.name ? user.name.charAt(0).toUpperCase() : 'U' %>
-                        </div>
-                        <div class="user-info">
-                            <span class="user-name"><%= user.name || 'User' %></span>
-                        </div>
-                    </div>
-                    <a href="/auth/logout" class="btn btn-ghost btn-sm">Logout</a>
-                <% } else { %>
-                    <a href="/auth/login" class="btn btn-ghost">Login</a>
-                    <a href="/auth/register" class="btn btn-primary">Join Now</a>
-                <% } %>
-            </div>
-
-            <button class="navbar-toggle" id="navbarToggle">☰</button>
-
+      <!-- LOGO -->
+      <a href="/" class="navbar-brand">
+        <!-- Spinning icon with gradient background -->
+        <div class="brand-icon">
+          <i class="fa-solid fa-bolt"></i>
         </div>
+        <div class="brand-text">
+          <span class="brand-name">Advanced Events</span>
+          <span class="brand-sub">Smart Ticketing System</span>
+        </div>
+      </a>
+
+      <!-- NAV LINKS - hidden on mobile, shown by hamburger -->
+      <ul class="navbar-nav" id="navbarMenu">
+
+        <li class="nav-item">
+          <a href="/"
+             class="nav-link <%= (typeof title !== 'undefined' && title === 'Home') ? 'active' : '' %>">
+            <span>Home</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/events"
+             class="nav-link <%= (typeof title !== 'undefined' && title === 'Events') ? 'active' : '' %>">
+            <span>Events</span>
+          </a>
+        </li>
+
+        <% if (typeof user !== 'undefined' && user) { %>
+          <li class="nav-item">
+            <a href="/dashboard"
+               class="nav-link <%= (typeof title !== 'undefined' && title === 'Dashboard') ? 'active' : '' %>">
+              <span>Dashboard</span>
+            </a>
+          </li>
+
+          <!-- Admin-only manage link -->
+          <% if (user.role === 'admin') { %>
+            <li class="nav-item">
+              <a href="/admin/events"
+                 class="nav-link <%= (typeof title !== 'undefined' && title === 'Admin') ? 'active' : '' %>">
+                <span>
+                  <i class="fa-solid fa-sliders" style="font-size: 0.78rem;"></i>
+                  Manage
+                </span>
+              </a>
+            </li>
+          <% } %>
+        <% } %>
+
+        <li class="nav-item">
+          <a href="/contact"
+             class="nav-link <%= (typeof title !== 'undefined' && title === 'Contact') ? 'active' : '' %>">
+            <span>Contact</span>
+          </a>
+        </li>
+
+      </ul>
+
+      <!-- RIGHT SIDE - auth buttons or user pill -->
+      <div class="navbar-actions" id="navbarActions">
+
+        <% if (typeof user !== 'undefined' && user) { %>
+
+          <!-- User info pill -->
+          <div class="user-pill">
+            <!-- Circle with user's first initial -->
+            <div class="user-avatar">
+              <%= user.firstName ? user.firstName.charAt(0).toUpperCase() : (user.name ? user.name.charAt(0).toUpperCase() : 'U') %>
+            </div>
+            <div class="user-info">
+              <span class="user-name">
+                <%= user.firstName || user.name || 'User' %>
+              </span>
+              <!-- Show role badge if admin -->
+              <% if (user.role === 'admin') { %>
+                <span class="user-role-badge">Admin</span>
+              <% } %>
+            </div>
+          </div>
+
+          <a href="/auth/logout" class="btn btn-ghost btn-sm">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+          </a>
+
+        <% } else { %>
+
+          <a href="/auth/login" class="btn btn-ghost btn-sm">Login</a>
+          <a href="/auth/register" class="btn btn-primary btn-sm">
+            <i class="fa-solid fa-ticket"></i>
+            Join Now
+          </a>
+
+        <% } %>
+      </div>
+
+      <!-- Hamburger button - only visible on mobile -->
+      <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
     </div>
+  </div>
 </nav>
 
+<!-- 
+  FLASH MESSAGES
+  These come from express-session via res.locals.messages
+  Each one auto-dismisses after 4 seconds (JS handles this)
+-->
 <% if (typeof messages !== 'undefined') { %>
-    <div class="container mt-3">
-        <% if (messages.success) { %>
-            <% messages.success.forEach(msg => { %>
-                <div class="alert alert-success">
-                    <span><i class="bi bi-check-circle-fill"></i> <%= msg %></span>
-                    <button class="alert-close">✕</button>
-                </div>
-            <% }) %>
-        <% } %>
-        
-        <% if (messages.error) { %>
-            <% messages.error.forEach(msg => { %>
-                <div class="alert alert-error">
-                    <span><i class="bi bi-exclamation-triangle-fill"></i> <%= msg %></span>
-                    <button class="alert-close">✕</button>
-                </div>
-            <% }) %>
-        <% } %>
-    </div>
+  <div class="flash-wrap">
+
+    <% if (messages.success && messages.success.length) { %>
+      <% messages.success.forEach(msg => { %>
+        <div class="alert alert-success flash-msg">
+          <i class="fa-solid fa-circle-check"></i>
+          <span><%= msg %></span>
+          <button class="flash-close" onclick="this.parentElement.remove()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      <% }) %>
+    <% } %>
+
+    <% if (messages.error && messages.error.length) { %>
+      <% messages.error.forEach(msg => { %>
+        <div class="alert alert-error flash-msg">
+          <i class="fa-solid fa-circle-xmark"></i>
+          <span><%= msg %></span>
+          <button class="flash-close" onclick="this.parentElement.remove()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      <% }) %>
+    <% } %>
+
+  </div>
 <% } %>

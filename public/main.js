@@ -1,256 +1,278 @@
-/**
- * ADVANCED EVENTS — Main Client JS
- * Handles: mobile nav, particle effects, scroll animations, flash messages
- */
+/* 
+  main.js
+  Handles all the interactive bits:
+  - navbar becomes solid when you scroll down
+  - hamburger opens/closes the mobile menu
+  - flash messages disappear after 4 seconds
+  - elements fade in as you scroll down the page
+  - buttons have a ripple effect on click
+  - stat card numbers count up when they come into view
+*/
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Mobile Navigation Toggle 
-  const toggle = document.getElementById('navbarToggle');
-  const navMenu = document.getElementById('navbarMenu');
+  /* 
+    NAVBAR - add .solid class when user scrolls down
+    This makes the background more opaque
+  */
+  const navbar = document.getElementById('navbar');
+  if (navbar) {
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('solid', window.scrollY > 40);
+    }, { passive: true });
+  }
+
+  /* 
+    HAMBURGER MENU
+    Toggles the mobile nav open/closed.
+    Also animates the three bars into an X.
+  */
+  const toggleBtn  = document.getElementById('navbarToggle');
+  const navMenu    = document.getElementById('navbarMenu');
   const navActions = document.getElementById('navbarActions');
 
-  if (toggle) {
-    toggle.addEventListener('click', () => {
-      const isOpen = navMenu?.classList.toggle('open');
-      navActions?.classList.toggle('open', isOpen);
-      toggle.setAttribute('aria-expanded', isOpen);
-      toggle.innerHTML = isOpen ? '✕' : '☰';
+  if (toggleBtn && navMenu) {
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = navMenu.classList.toggle('open');
+      toggleBtn.classList.toggle('open', isOpen);
+      if (navActions) navActions.classList.toggle('open', isOpen);
+    });
+
+    /* Close menu when a link is clicked (smooth on mobile) */
+    navMenu.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('open');
+        navActions && navActions.classList.remove('open');
+        toggleBtn.classList.remove('open');
+      });
+    });
+
+    /* Close menu when clicking outside of it */
+    document.addEventListener('click', (e) => {
+      if (!navbar.contains(e.target)) {
+        navMenu.classList.remove('open');
+        navActions && navActions.classList.remove('open');
+        toggleBtn.classList.remove('open');
+      }
     });
   }
 
-  // Close mobile nav on outside click
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.navbar')) {
-      navMenu?.classList.remove('open');
-      navActions?.classList.remove('open');
-      if (toggle) {
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.innerHTML = '☰';
-      }
-    }
-  });
-
-  // Active Nav Link 
-  const currentPath = window.location.pathname;
-  document.querySelectorAll('.nav-link').forEach(link => {
-    const href = link.getAttribute('href');
-    if (href && currentPath === href) {
-      link.classList.add('active');
-    } else if (href && href !== '/' && currentPath.startsWith(href)) {
-      link.classList.add('active');
-    }
-  });
-
-  //Particle Effects 
-  const particleContainer = document.getElementById('heroParticles');
-  if (particleContainer) {
-    const colors = ['#b44fff', '#00d4ff', '#ff2d78', '#ffffff'];
-    const count = window.innerWidth > 768 ? 40 : 20;
-
-    for (let i = 0; i < count; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      const size = Math.random() * 3 + 1;
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const left = Math.random() * 100;
-      const duration = Math.random() * 15 + 8;
-      const delay = Math.random() * 10;
-
-      p.style.cssText = `
-        left: ${left}%;
-        width: ${size}px;
-        height: ${size}px;
-        background: ${color};
-        box-shadow: 0 0 ${size * 3}px ${color};
-        animation-duration: ${duration}s;
-        animation-delay: -${delay}s;
-      `;
-      particleContainer.appendChild(p);
-    }
-  }
-
-  //Scroll Reveal Animations 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('slide-up');
-        entry.target.style.opacity = '1';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-  document.querySelectorAll('.reveal').forEach(el => {
-    el.style.opacity = '0';
-    observer.observe(el);
-  });
-
-  //Flash / Alert Auto-dismiss 
-  document.querySelectorAll('.alert[data-autodismiss]').forEach(alert => {
-    const delay = parseInt(alert.dataset.autodismiss) || 5000;
+  /* 
+    FLASH MESSAGES
+    Auto-remove each flash message after 4 seconds
+  */
+  document.querySelectorAll('.flash-msg').forEach(msg => {
     setTimeout(() => {
-      alert.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      alert.style.opacity = '0';
-      alert.style.transform = 'translateY(-10px)';
-      setTimeout(() => alert.remove(), 500);
-    }, delay);
+      msg.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+      msg.style.opacity    = '0';
+      msg.style.transform  = 'translateY(-8px)';
+      setTimeout(() => msg.remove(), 400);
+    }, 4000);
   });
 
-  // Manual close for alerts
-  document.querySelectorAll('.alert-close').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const alert = btn.closest('.alert');
-      if (alert) {
-        alert.style.transition = 'opacity 0.3s ease';
-        alert.style.opacity = '0';
-        setTimeout(() => alert.remove(), 300);
-      }
-    });
-  });
-
-  //  Stat Counter Animations 
-  const statValues = document.querySelectorAll('.stat-value[data-count]');
-  if (statValues.length) {
-    const statsObserver = new IntersectionObserver((entries) => {
+  /* 
+    SCROLL REVEAL
+    Elements with class .reveal start invisible.
+    IntersectionObserver adds .visible when they scroll into view.
+  */
+  const revealEls = document.querySelectorAll('.reveal');
+  if (revealEls.length) {
+    const revealObs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = parseInt(el.dataset.count);
-          const suffix = el.dataset.suffix || '';
-          const duration = 1500;
-          const start = performance.now();
+          entry.target.classList.add('visible');
+          revealObs.unobserve(entry.target); /* only animate once */
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
 
-          const animate = (time) => {
-            const elapsed = time - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3); // ease out cubic
-            el.textContent = Math.floor(eased * target) + suffix;
-            if (progress < 1) requestAnimationFrame(animate);
-          };
+    revealEls.forEach(el => revealObs.observe(el));
+  }
 
-          requestAnimationFrame(animate);
-          statsObserver.unobserve(el);
+  /* 
+    RIPPLE EFFECT ON BUTTONS
+    When you click a .btn, a circle expands from where you clicked
+  */
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const rect   = this.getBoundingClientRect();
+      const size   = Math.max(rect.width, rect.height);
+      const ripple = document.createElement('span');
+
+      ripple.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        left: ${e.clientX - rect.left - size / 2}px;
+        top:  ${e.clientY - rect.top  - size / 2}px;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 50%;
+        transform: scale(0);
+        animation: rippleGrow 0.5s linear;
+        pointer-events: none;
+      `;
+
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 550);
+    });
+  });
+
+  /* Add the ripple keyframe dynamically if it doesn't already exist */
+  if (!document.getElementById('rippleStyle')) {
+    const style = document.createElement('style');
+    style.id = 'rippleStyle';
+    style.textContent = `
+      @keyframes rippleGrow {
+        to { transform: scale(4); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  /* 
+    COUNTER ANIMATION
+    Elements with data-counter animate their number
+    from 0 up to the target when they scroll into view
+  */
+  const counterEls = document.querySelectorAll('[data-counter]');
+  if (counterEls.length) {
+    const countObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          countObs.unobserve(entry.target);
         }
       });
     }, { threshold: 0.5 });
 
-    statValues.forEach(el => statsObserver.observe(el));
+    counterEls.forEach(el => countObs.observe(el));
   }
 
-  // Hero Stat Counters (simple version) 
-  document.querySelectorAll('[data-target]').forEach(el => {
-    const target = parseInt(el.dataset.target);
-    const suffix = el.dataset.suffix || '';
-    let current = 0;
-    const increment = target / 60;
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) { current = target; clearInterval(timer); }
-      el.textContent = Math.floor(current).toLocaleString() + suffix;
-    }, 25);
-  });
+  function animateCounter(el) {
+    const target   = parseFloat(el.dataset.counter || el.textContent.replace(/[^0-9.]/g, ''));
+    const isFloat  = String(target).includes('.');
+    const duration = 1600;
+    const start    = performance.now();
 
-  //  Filter Form Enhancement
-  const filterForm = document.getElementById('filterForm');
-  if (filterForm) {
-    // Auto-submit on select change
-    filterForm.querySelectorAll('select').forEach(sel => {
-      sel.addEventListener('change', () => filterForm.submit());
-    });
-
-    // Clear filters button
-    const clearBtn = document.getElementById('clearFilters');
-    if (clearBtn) {
-      clearBtn.addEventListener('click', () => {
-        filterForm.querySelectorAll('input, select').forEach(el => {
-          if (el.type !== 'submit') el.value = '';
-        });
-        filterForm.submit();
-      });
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      /* ease out quart */
+      const eased    = 1 - Math.pow(1 - progress, 4);
+      el.textContent = isFloat
+        ? (target * eased).toFixed(1)
+        : Math.floor(target * eased).toLocaleString();
+      if (progress < 1) requestAnimationFrame(tick);
     }
+    requestAnimationFrame(tick);
   }
 
-  //  Image Lazy Load + Error Fallback 
-  document.querySelectorAll('img[data-src]').forEach(img => {
-    const imgObserver = new IntersectionObserver(entries => {
+  /* 
+    CAPACITY BARS
+    Bars start at 0 width and expand to their target
+    when they scroll into view
+  */
+  document.querySelectorAll('.cap-bar, .capacity-bar').forEach(bar => {
+    const fill = bar.querySelector('.cap-fill, .capacity-fill');
+    if (!fill) return;
+
+    /* Store the target width then reset to 0 */
+    const target = fill.style.width;
+    fill.dataset.target = target;
+    fill.style.width    = '0%';
+
+    const barObs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          img.src = img.dataset.src;
-          imgObserver.unobserve(img);
+          setTimeout(() => fill.style.width = fill.dataset.target, 150);
+          barObs.unobserve(entry.target);
         }
       });
-    });
-    imgObserver.observe(img);
+    }, { threshold: 0.3 });
+
+    barObs.observe(bar);
   });
 
-  document.querySelectorAll('img').forEach(img => {
-    img.addEventListener('error', () => {
-      img.style.display = 'none';
-      const placeholder = img.closest('.event-card-image');
-      if (placeholder) {
-        placeholder.innerHTML = '<div class="event-card-image-placeholder">🎪</div>';
-      }
+  /* 
+    MODAL HELPERS
+    openModal and closeModal can be called from EJS onclick attributes
+  */
+  window.openModal = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  window.closeModal = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  };
+
+  /* Close modal when clicking on the dark background behind it */
+  document.querySelectorAll('.modal-bg').forEach(bg => {
+    bg.addEventListener('click', (e) => {
+      if (e.target === bg) closeModal(bg.id);
     });
   });
 
-  //  Confirm Delete
-  document.querySelectorAll('[data-confirm]').forEach(el => {
-    el.addEventListener('click', (e) => {
-      if (!confirm(el.dataset.confirm || 'Are you sure?')) {
-        e.preventDefault();
-      }
-    });
+  /* Close modal with Escape key */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-bg.open').forEach(m => closeModal(m.id));
+    }
   });
 
-  // Scroll to top button
-  const scrollTopBtn = document.getElementById('scrollTopBtn');
-  if (scrollTopBtn) {
-    window.addEventListener('scroll', () => {
-      scrollTopBtn.style.opacity = window.scrollY > 500 ? '1' : '0';
-      scrollTopBtn.style.pointerEvents = window.scrollY > 500 ? 'auto' : 'none';
-    });
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-  //  Glowing cursor trail (optional, desktop only)
-  if (window.innerWidth > 1024) {
-    let trail = [];
-    const maxTrail = 8;
-
-    document.addEventListener('mousemove', (e) => {
-      const dot = document.createElement('div');
-      dot.style.cssText = `
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background: var(--neon-purple);
-        box-shadow: 0 0 8px var(--neon-purple);
-        left: ${e.clientX - 2}px;
-        top: ${e.clientY - 2}px;
-        transition: opacity 0.5s ease;
-        opacity: 0.6;
+  /* 
+    TOAST NOTIFICATION
+    Call showToast('Your message', 'success') from anywhere
+  */
+  window.showToast = (message, type = 'success') => {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'toast-container';
+      container.style.cssText = `
+        position: fixed; top: 80px; right: 18px; z-index: 5000;
+        display: flex; flex-direction: column; gap: 8px; pointer-events: none;
       `;
-      document.body.appendChild(dot);
-      trail.push(dot);
+      document.body.appendChild(container);
+    }
 
-      if (trail.length > maxTrail) {
-        const old = trail.shift();
-        old.style.opacity = '0';
-        setTimeout(() => old.remove(), 500);
-      }
+    const icons = { success: '✓', error: '✕', info: 'ℹ', warning: '⚠' };
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-left: 3px solid var(--neon-purple);
+      color: var(--text-primary);
+      padding: 11px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.87rem;
+      font-weight: 500;
+      min-width: 240px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      pointer-events: all;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.5);
+      animation: slideUp 0.35s ease;
+    `;
 
-      setTimeout(() => {
-        dot.style.opacity = '0';
-        setTimeout(() => dot.remove(), 500);
-        trail = trail.filter(d => d !== dot);
-      }, 200);
-    });
-  }
+    toast.innerHTML = `<span>${icons[type] || '✓'}</span><span>${message}</span>`;
+    container.appendChild(toast);
 
+    /* Remove after 3.5 seconds */
+    setTimeout(() => {
+      toast.style.transition = 'opacity 0.4s, transform 0.4s';
+      toast.style.opacity    = '0';
+      toast.style.transform  = 'translateX(14px)';
+      setTimeout(() => toast.remove(), 400);
+    }, 3500);
+  };
+
+  console.log('Advanced Events - UI ready');
 });

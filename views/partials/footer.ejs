@@ -1,8 +1,10 @@
+<!-- ── FOOTER ── -->
 <footer class="footer">
   <div class="container">
-    
+
     <div class="footer-grid">
-      
+
+      <!-- Brand Column -->
       <div class="footer-brand-info">
         <a href="/" class="navbar-brand">
           <div class="brand-icon">
@@ -13,17 +15,25 @@
             <span class="brand-sub">Smart Ticketing</span>
           </div>
         </a>
+
         <p class="footer-brand-desc">
           Building the future of event management with secure and smart ticketing solutions.
         </p>
-        
+
         <div class="footer-social">
-          <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
-          <a href="#" class="social-btn"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+          <a href="#" class="social-btn" aria-label="Twitter / X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="#" class="social-btn" aria-label="LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
         </div>
       </div>
 
+      <!-- Explore -->
       <div>
         <h4 class="footer-heading">Explore</h4>
         <ul class="footer-links">
@@ -33,15 +43,26 @@
         </ul>
       </div>
 
+      <!-- Account (role-aware) -->
       <div>
         <h4 class="footer-heading">Account</h4>
         <ul class="footer-links">
-          <li><a href="/auth/login"><i class="bi bi-chevron-right"></i> Sign In</a></li>
-          <li><a href="/auth/register"><i class="bi bi-chevron-right"></i> Register</a></li>
-          <li><a href="/dashboard"><i class="bi bi-chevron-right"></i> My Dashboard</a></li>
+          <% if (typeof user !== 'undefined' && user) { %>
+            <li><a href="/dashboard"><i class="bi bi-chevron-right"></i> My Dashboard</a></li>
+            <% if (user.role === 'admin') { %>
+              <li><a href="/admin/events"><i class="bi bi-chevron-right"></i> Manage Events</a></li>
+              <li><a href="/admin/enquiries"><i class="bi bi-chevron-right"></i> Enquiries</a></li>
+            <% } %>
+            <li><a href="/auth/logout"><i class="bi bi-chevron-right"></i> Logout</a></li>
+          <% } else { %>
+            <li><a href="/auth/login"><i class="bi bi-chevron-right"></i> Sign In</a></li>
+            <li><a href="/auth/register"><i class="bi bi-chevron-right"></i> Register</a></li>
+            <li><a href="/dashboard"><i class="bi bi-chevron-right"></i> My Dashboard</a></li>
+          <% } %>
         </ul>
       </div>
 
+      <!-- Contact -->
       <div>
         <h4 class="footer-heading">Get in Touch</h4>
         <div class="footer-contact-item">
@@ -52,54 +73,147 @@
           <i class="bi bi-envelope icon"></i>
           <span>support@advancedevents.co.za</span>
         </div>
+        <div class="footer-contact-item">
+          <i class="bi bi-telephone icon"></i>
+          <span>+27 11 000 0000</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="bi bi-clock icon"></i>
+          <span>Mon–Fri: 8am – 6pm SAST</span>
+        </div>
       </div>
 
     </div>
 
+    <!-- Neon Divider -->
+    <div class="neon-divider"></div>
+
+    <!-- Bottom Bar -->
     <div class="footer-bottom">
       <div class="footer-bottom-inner">
+
         <p class="footer-copyright">
-          &copy; 2026 <span>Advanced Events</span>. All rights reserved.
+          &copy; <%= new Date().getFullYear() %> <span>Advanced Events (Pty) Ltd</span>. All rights reserved.
         </p>
-        <div class="footer-legal">
+
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span>SYSTEM ONLINE</span>
+        </div>
+
+        <nav class="footer-legal" aria-label="Legal links">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
-        </div>
+        </nav>
+
       </div>
     </div>
 
   </div>
 </footer>
+<!-- ── END FOOTER ── -->
 
+<!-- Scroll to Top Button -->
+<button id="scrollTopBtn" aria-label="Scroll to top" class="scroll-top-btn">
+  <i class="bi bi-arrow-up"></i>
+</button>
+
+</div><!-- close .wrapper -->
+
+<!-- ── SCRIPTS ── -->
 <script>
-  // Mobile Menu Toggle
+  // ── Mobile Menu Toggle ──
   const menuBtn = document.getElementById('navbarToggle');
-  const menu = document.getElementById('navbarMenu');
+  const menu    = document.getElementById('navbarMenu');
+  const actions = document.getElementById('navbarActions');
 
   if (menuBtn) {
     menuBtn.addEventListener('click', () => {
-      menu.classList.toggle('open');
-      // Change burger icon to X when open
-      menuBtn.textContent = menu.classList.contains('open') ? '✕' : '☰';
+      const isOpen = menu.classList.toggle('open');
+      if (actions) actions.classList.toggle('open', isOpen);
+      menuBtn.textContent = isOpen ? '✕' : '☰';
+      menuBtn.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close when clicking outside navbar
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.navbar')) {
+        menu.classList.remove('open');
+        if (actions) actions.classList.remove('open');
+        menuBtn.textContent = '☰';
+        menuBtn.setAttribute('aria-expanded', 'false');
+      }
     });
   }
 
-  // Flash Message Close Button Logic
-  document.querySelectorAll('.alert-close').forEach(button => {
-    button.addEventListener('click', () => {
-      const alert = button.parentElement;
-      alert.style.opacity = '0';
-      setTimeout(() => alert.remove(), 400);
+  // ── Flash Message Close Button ──
+  document.querySelectorAll('.alert-close').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const alert = btn.closest('.alert');
+      if (alert) {
+        alert.style.transition = 'opacity 0.4s ease';
+        alert.style.opacity = '0';
+        setTimeout(() => alert.remove(), 400);
+      }
     });
   });
 
-  // Automatically hide flash messages after 5 seconds
+  // ── Auto-dismiss Flash Messages after 5s ──
   setTimeout(() => {
     document.querySelectorAll('.alert').forEach(alert => {
+      alert.style.transition = 'opacity 0.4s ease';
       alert.style.opacity = '0';
       setTimeout(() => alert.remove(), 400);
     });
   }, 5000);
+
+  // ── Active Nav Link ──
+  const currentPath = window.location.pathname;
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === currentPath || (href !== '/' && currentPath.startsWith(href))) {
+      link.classList.add('active');
+    }
+  });
+
+  // ── Scroll to Top ──
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  if (scrollBtn) {
+    window.addEventListener('scroll', () => {
+      scrollBtn.style.opacity       = window.scrollY > 400 ? '1' : '0';
+      scrollBtn.style.pointerEvents = window.scrollY > 400 ? 'auto' : 'none';
+    });
+    scrollBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // ── Particle Generator (hero page only) ──
+  const particleContainer = document.getElementById('heroParticles');
+  if (particleContainer) {
+    const colors = ['#a855f7', '#6366f1', '#ec4899', '#ffffff'];
+    const count  = window.innerWidth > 768 ? 35 : 15;
+
+    for (let i = 0; i < count; i++) {
+      const p        = document.createElement('div');
+      p.className    = 'particle';
+      const size     = Math.random() * 3 + 1;
+      const color    = colors[Math.floor(Math.random() * colors.length)];
+      const duration = Math.random() * 15 + 8;
+      const delay    = Math.random() * 10;
+
+      p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        width: ${size}px;
+        height: ${size}px;
+        background: ${color};
+        box-shadow: 0 0 ${size * 3}px ${color};
+        animation-duration: ${duration}s;
+        animation-delay: -${delay}s;
+      `;
+      particleContainer.appendChild(p);
+    }
+  }
 </script>
 
 </body>

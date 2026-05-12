@@ -1,30 +1,28 @@
 <%- include('partials/header') %>
+<div class="bg-grid"></div>
+<div class="bg-orbs"></div>
 
-<main class="container d-flex align-items-center justify-content-center" style="min-height: 80vh; margin-top: 50px;">
-    <div class="table-container fade-in" style="max-width: 450px; width: 100%; padding: 3rem; background: var(--cardBg); border: 1px solid var(--border);">
-        
-        <div class="text-center mb-4">
-            <div class="hero-eyebrow" style="justify-content: center;">
-                <span class="hero-eyebrow-dot"></span>
-                Secure Access
-            </div>
-            <h2 class="mt-2" style="color: var(--textPrimary); font-weight: 800;">Welcome Back</h2>
+<main class="container">
+    <div class="hero-section-center">
+        <div class="hero-eyebrow eyebrow-center">
+            <span class="hero-eyebrow-dot"></span>
+            Secure Access
         </div>
 
-        <% if (typeof error !== 'undefined' && error) { %>
-            <div class="alert alert-error" style="margin-bottom: 1rem;">
-                <span><i class="bi bi-exclamation-triangle-fill"></i> <%= error %></span>
-            </div>
-        <% } %>
+        <h1 class="hero-main-title">
+            Welcome <span class="hero-accent">Back</span>
+        </h1>
+    </div>
 
+    <div class="auth-card-wrapper fade-in">
         <form action="/auth/login" method="POST">
             <div class="mb-4">
-                <label class="form-label" style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase;">Email Address</label>
+                <label class="form-label">Email Address</label>
                 <input type="email" name="email" class="form-control" placeholder="name@email.com" required>
             </div>
 
             <div class="mb-4">
-                <label class="form-label" style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase;">Password</label>
+                <label class="form-label">Password</label>
                 <input type="password" name="password" class="form-control" placeholder="••••••••" required>
             </div>
 
@@ -33,8 +31,8 @@
             </button>
             
             <div class="text-center">
-                <p style="color: var(--textSecondary); font-size: 0.9rem;">
-                    Don't have an account? <a href="/register" style="color: var(--accent); text-decoration: none; font-weight: 600;">Join the list</a>
+                <p class="auth-footer-text">
+                    Don't have an account? <a href="/register" class="auth-link">Join the list</a>
                 </p>
             </div>
         </form>
