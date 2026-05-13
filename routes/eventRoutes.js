@@ -7,6 +7,6 @@ const { isAdmin } = require("../middleware/adminMiddleware")
 const eventController = require("../controllers/eventController")
 
 //Admin only Event Management
-router.get("/events", isLoggedIn, isAdmin, eventController.getEvent);
+router.get("/", isLoggedIn, isAdmin, eventController.getEvent);
 
 module.exports = router

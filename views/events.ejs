@@ -1,0 +1,22 @@
+<%- include('partials/header') %>
+
+<main>
+    <h1>Events</h1>
+
+    <% if (events.length === 0) { %>
+        <p>No events available at the moment.</p>
+    <% } else { %>
+        <div class="events-grid">
+            <% events.forEach(event => { %>
+                <div class="event-card">
+                    <h3><%= event.Category %></h3>
+                    <p>Date: <%= new Date(event.Date).toLocaleDateString() %></p>
+                    <p>Capacity: <%= event.Capacity %></p>
+                    <p>Available: <%= event.Capacity - event.Bookings %></p>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</main>
+
+<%- include('partials/footer') %>

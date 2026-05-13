@@ -25,7 +25,7 @@ app.use(setLocals);
 // Routes
 app.use('/', require("./routes/homeRoutes"))                //Home / Event Listing
 app.use('/auth', require("./routes/authRoutes"))            //User Authentication
-app.use('/admin', require("./routes/eventRoutes"))          //Event Management
+app.use('/admin/events', require("./routes/eventRoutes"))          //Event Management
 app.use('/dashboard', require("./routes/dashboardRoutes"))  //Booking & Dashboard
 app.use('/contact', require("./routes/contactRoutes"))     //Contact / Enquiries
 

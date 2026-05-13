@@ -1,10 +1,11 @@
 const express = require("express")
 const router = express.Router()
 
-const homeContoller = require("../controllers/homeController")
+const homeController = require("../controllers/homeController")
 
 //Booking
-router.get("/", homeContoller.getHome)
+router.get("/", homeController.getHome)
+router.get("/events", homeController.getEvents)  // public event listing
 
 module.exports = router
 
