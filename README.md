@@ -73,14 +73,14 @@ Advanced Events (Pty) Ltd previously relied on manual spreadsheets and disconnec
 smart-event-platform/
 ├── .vs/ 
 │   ├── WPR381-Project 
-│        ├── FileContentIndex 
-│            ├── 039e9610-283d-48ed-9305-26e55a7d5d9d.vsidx
-│            ├── 76ef6ef5-aa0b-4daa-b32f-2108da0f4453.vsidx
-│            ├── 91a3fec0-fd68-4467-8cec-514080a94226.vsidx	
-│            └── b9902c78-7b6e-4b73-890a-5b5dc9569593.vsidx
-│        └── v17 
-│            ├── .wsuo
-│            └── DocumentLayout.json
+│   │    ├── FileContentIndex 
+│   │    │   ├── 039e9610-283d-48ed-9305-26e55a7d5d9d.vsidx
+│   │    │   ├── 76ef6ef5-aa0b-4daa-b32f-2108da0f4453.vsidx
+│   │    │   ├── 91a3fec0-fd68-4467-8cec-514080a94226.vsidx	
+│   │    │   └── b9902c78-7b6e-4b73-890a-5b5dc9569593.vsidx
+│   │    └── v17 
+│   │        ├── .wsuo
+│   │        └── DocumentLayout.json
 │   ├── ProjectSettings.json
 │   ├── VSWorkSpaceState.json 
 │   └── slnx.sqlite
