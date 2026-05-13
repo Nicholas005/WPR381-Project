@@ -27,7 +27,8 @@ exports.postBooking = async (req, res, next) => {
         await Booking.create({
             EventID: event._id,
             UserID: req.user.id,
-            Tickets: tickets
+            Tickets: tickets,
+            TotalCost: tickets * (event.TicketPrice || 0)
         });
 
         await Event.findByIdAndUpdate(event._id, {
@@ -62,7 +63,7 @@ exports.editBooking = async (req, res, next) => {
         }
 
         // Update booking and adjust event bookings count
-        await Booking.findByIdAndUpdate(req.params.id, { Tickets: newTickets });
+        await Booking.findByIdAndUpdate(req.params.id, { Tickets: newTickets, TotalCost: newTickets * (event.TicketPrice || 0)});
         await Event.findByIdAndUpdate(booking.EventID, {
             $inc: { Bookings: ticketDifference }
         });

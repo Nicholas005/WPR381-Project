@@ -6,7 +6,8 @@ const EventSchema = new mongoose.Schema({
   Capacity: { type: Number, required: true },
   Bookings: { type: Number, default: 0 },
   Date:     { type: Date,   required: true },
-  Category: { type: String, required: true }
+  Category: { type: String, required: true },
+  TicketPrice: { type: Number, required: true, default: 0 }
 });
 
 module.exports = mongoose.model("Events", EventSchema);

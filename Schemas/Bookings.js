@@ -14,7 +14,8 @@ const BookingSchema = new mongoose.Schema({
     ref: "Users",          // References the User collection, similar to a foreign key in an ERD
     required: true
   },
-  Tickets: { type: Number, required: true }
+  Tickets: { type: Number, required: true },
+  TotalCost: { type: Number, required: true, default: 0 }
 });
 
 module.exports = mongoose.model("Bookings", BookingSchema);

@@ -81,11 +81,20 @@
                                 <i class="fa-solid fa-users icon"></i>
                                 <%= available %> / <%= event.Capacity %> spots left
                             </div>
+                            <div class="event-meta-item">
+                                <i class="fa-solid fa-tag icon"></i>
+                            R <%= (event.TicketPrice || 0).toFixed(2) %> per ticket
+                            </div>
                         </div>
                         <div class="event-card-price">
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">
-                                <i class="fa-solid fa-users"></i> <%= available %> spots left
-                            </span>
+                            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.4rem;">
+                                <span style="background: var(--neon-purple); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 999px;">
+                                    <i class="fa-solid fa-users"></i> <%= available %> spots left
+                                </span>
+                                <span style="background: var(--neon-blue, #00cfff); color: #000; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 999px;">
+                                    R <%= (event.TicketPrice || 0).toFixed(2) %> / ticket
+                                </span>
+                            </div>
                             <% if (typeof user !== 'undefined' && user && user.role !== 'admin') { %>
                                 <% if (!isSoldOut) { %>
                                     <form action="/bookings/<%= event._id %>" method="POST" style="display:inline; display:flex; gap:0.5rem; align-items:center;">

@@ -13,31 +13,33 @@
         </div>
         <div>
             <a href="/admin/events" class="btn btn-primary px-4 py-3" style="font-weight: 700; display: flex; align-items: center; gap: 10px;">
-                ⚡ MANAGE ALL EVENTS
+                MANAGE ALL EVENTS
             </a>
         </div>
     </div>
 
     <div class="row g-4 mb-5 reveal">
-        <div class="col-md-4">
-            <div class="table-container" style="padding: 2rem; border-left: 4px solid var(--accent);">
-                <small style="color: var(--accent); letter-spacing: 1px;">TOTAL REVENUE</small>
-                <h2 style="color: white; margin-top: 5px;">R45,200</h2>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="table-container" style="padding: 2rem; border-left: 4px solid #00ff88;">
-                <small style="color: #00ff88; letter-spacing: 1px;">ACTIVE USERS</small>
-                <h2 style="color: white; margin-top: 5px;">1,204</h2>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="table-container" style="padding: 2rem; border-left: 4px solid white;">
-                <small style="color: white; letter-spacing: 1px;">LIVE EVENTS</small>
-                <h2 style="color: white; margin-top: 5px;">12</h2>
-            </div>
+    <div class="col-md-4">
+        <div class="table-container" style="padding: 2rem; border-left: 4px solid var(--accent);">
+            <small style="color: var(--accent); letter-spacing: 1px;">TOTAL REVENUE</small>
+            <h2 style="color: white; margin-top: 5px;">
+                R <%= totalRevenue ? totalRevenue.toLocaleString('en-ZA', {minimumFractionDigits: 2}) : '0.00' %>
+            </h2>
         </div>
     </div>
+    <div class="col-md-4">
+        <div class="table-container" style="padding: 2rem; border-left: 4px solid #00ff88;">
+            <small style="color: #00ff88; letter-spacing: 1px;">TOTAL BOOKINGS</small>
+            <h2 style="color: white; margin-top: 5px;"><%= totalBookings || 0 %></h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="table-container" style="padding: 2rem; border-left: 4px solid white;">
+            <small style="color: white; letter-spacing: 1px;">LIVE EVENTS</small>
+            <h2 style="color: white; margin-top: 5px;"><%= totalEvents || 0 %></h2>
+        </div>
+    </div>
+</div>
 
     <div class="row g-4 reveal">
         <div class="col-12">

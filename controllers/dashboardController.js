@@ -12,8 +12,12 @@ exports.getDashboardAdmin = async (req, res, next) => {
     try {
         const totalBookings = await Booking.countDocuments();
         const totalEvents = await Event.countDocuments();
-        const events = await Event.find();
-        res.render("dashboard-admin", { totalBookings, totalEvents, events });
+        const bookings = await Booking.find().populate('EventID');
+        const totalRevenue = bookings.reduce((sum, b) => {
+            const price = b.EventID ? (b.EventID.TicketPrice || 0) : 0;
+            return sum + (price * b.Tickets);
+        }, 0);
+        res.render("dashboard-admin", { totalBookings, totalEvents, totalRevenue });
     } catch (err) {
         next(err);
     }
@@ -23,7 +27,7 @@ exports.getDashboardUser = async (req, res, next) => {
     try {
         const bookings = await Booking.find({ UserID: req.user.id }).populate('EventID');
         const totalTickets = bookings.length;
-        res.render("dashboard-user", { bookings, totalTickets });
+        res.render("dashboard-user", { bookings, totalTickets, user: req.user });
     } catch (err) {
         next(err);
     }

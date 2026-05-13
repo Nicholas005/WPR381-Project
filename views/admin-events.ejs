@@ -27,6 +27,7 @@
                     <th>Category</th>
                     <th>Date</th>
                     <th>Capacity</th>
+                    <th>Price</th>
                     <th>Available</th>
                     <th style="text-align: right;">Actions</th>
                 </tr>
@@ -40,29 +41,31 @@
                                 <span class="float-badge-available"><%= event.Category %></span></td>
                             <td><%= new Date(event.Date).toLocaleDateString() %></td>
                             <td><%= event.Capacity %></td>
+                            <td>R <%= (event.TicketPrice || 0).toFixed(2) %></td>
                             <td><%= event.Capacity - (event.Bookings || 0) %> / <%= event.Capacity %></td>
                             <td class="action-btn-group">
-                                <button class="btn btn-sm btn-ghost" 
+                                <button class="btn btn-sm btn-outline" 
                                     onclick="openEditModal(
                                         '<%= event._id %>',
                                         '<%= event.Name %>',
                                         '<%= event.Category %>',
-                                        '<%= new Date(event.Date).toISOString().split('T')[0] %>',
-                                        '<%= event.Capacity %>'
+                                        '<%= new Date(event.Date).toISOString().split("T")[0] %>',
+                                        '<%= event.Capacity %>',
+                                        '<%= event.TicketPrice || 0 %>'
                                     )">Edit</button>
-                                
-                                <a href="/admin/events/<%= event._id %>/attendees" class="btn btn-sm btn-outline">
+    
+                               <a href="/admin/events/<%= event._id %>/attendees" class="btn btn-sm btn-outline">
                                     Attendees
                                 </a>
                                 <form action="/admin/events/<%= event._id %>/delete" method="POST" style="display:inline;">
-                                    <button type="submit" class="btn btn-sm btn-ghost btn-delete">Delete</button>
+                                    <button type="submit" class="btn btn-sm btn-outline">Delete</button>
                                 </form>
                             </td>
                         </tr>
                     <% }) %>
                 <% } else { %>
                     <tr>
-                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--textSecondary);">
+                        <td colspan="7" style="text-align: center; padding: 2rem; color: var(--textSecondary);">
                             No events found in the database.
                         </td>
                     </tr>
@@ -103,6 +106,10 @@
                 <label>Capacity</label>
                 <input type="number" name="capacity" class="form-control" required min="1" placeholder="e.g. 200" />
             </div>
+            <div class="form-group">
+                <label>Ticket Price (R)</label>
+                <input type="number" name="ticketPrice" class="form-control" required min="0" step="0.01" placeholder="e.g. 150.00" />
+            </div>
             <div class="modal-footer">
                 <button type="button" onclick="closeModal('createEventModal')" class="btn btn-ghost">Cancel</button>
                 <button type="submit" class="btn btn-primary">Create Event</button>
@@ -140,6 +147,10 @@
                 <label>Capacity</label>
                 <input type="number" name="capacity" id="editCapacity" class="form-control" required min="1" />
             </div>
+            <div class="form-group">
+                <label>Ticket Price (R)</label>
+                <input type="number" name="ticketPrice" id="editTicketPrice" class="form-control" required min="0" step="0.01" />
+            </div>
             <div class="modal-footer">
                 <button type="button" onclick="closeModal('editEventModal')" class="btn btn-ghost">Cancel</button>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -149,12 +160,13 @@
 </div>
 
 <script>
-function openEditModal(id, name, category, date, capacity) {
+function openEditModal(id, name, category, date, capacity, ticketPrice) {
     document.getElementById('editEventForm').action = '/admin/events/' + id + '/edit';
     document.getElementById('editName').value = name;
     document.getElementById('editCategory').value = category;
     document.getElementById('editDate').value = date;
     document.getElementById('editCapacity').value = capacity;
+    document.getElementById('editTicketPrice').value = ticketPrice;
     openModal('editEventModal');
 }
 </script>

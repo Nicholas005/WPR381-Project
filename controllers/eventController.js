@@ -13,8 +13,8 @@ exports.getEvent = async (req, res, next) => {
 
 exports.postCreateEvent = async (req, res, next) => {
     try {
-        const { name, category, date, capacity } = req.body;
-        await Event.create({ Name: name, Category: category, Date: date, Capacity: capacity, Bookings: 0 });
+        const { name, category, date, capacity, ticketPrice } = req.body;
+        await Event.create({ Name: name, Category: category, Date: date, Capacity: capacity, Bookings: 0, TicketPrice: parseFloat(ticketPrice) || 0});
         res.redirect('/admin/events');
     } catch (err) {
         next(err);
@@ -41,9 +41,9 @@ exports.getEditEvent = async (req, res, next) => {
 
 exports.postEditEvent = async (req, res, next) => {
     try {
-        const { name, category, date, capacity } = req.body;
+        const { name, category, date, capacity, ticketPrice } = req.body;
         await Event.findByIdAndUpdate(req.params.id, {
-            Name: name, Category: category, Date: date, Capacity: capacity
+            Name: name, Category: category, Date: date, Capacity: capacity, TicketPrice: parseFloat(ticketPrice) || 0
         });
         res.redirect('/admin/events');
     } catch (err) {

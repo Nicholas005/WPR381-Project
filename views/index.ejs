@@ -24,13 +24,19 @@
 
         <div class="search-bar mt-4 slide-up">
           <i class="bi bi-search search-icon"></i>
-          <input type="text" class="form-control" placeholder="Search events...">
-          <button class="btn btn-primary search-btn">Search</button>
+          <input type="text" id="heroSearch" class="form-control" placeholder="Search events..." oninput="searchEvents()">
+          <button class="btn btn-primary search-btn" onclick="searchEvents()">Search</button>
+        </div>
+
+        <div id="heroSearchResults" style="display:none; margin-top: 1rem; background: rgba(11,10,36,0.95); border: 1px solid rgba(168,85,247,0.3); border-radius: 12px; padding: 1rem; max-height: 420px; overflow-y: auto;">
+          <div style="font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.75rem;">Search Results</div>
+          <div id="heroSearchResultsGrid" class="events-grid" style="grid-template-columns: repeat(auto-fill, minmax(260px,1fr));"></div>
+          <div id="heroNoResults" style="display:none; text-align:center; padding:1.5rem; color:var(--text-secondary);">No events found.</div>
         </div>
 
         <div class="hero-stats mt-4 slide-up">
           <div class="hero-stat">
-            <span class="hero-stat-value">50+</span>
+            <span class="hero-stat-value"><%= activeCount %>+</span>
             <span class="hero-stat-label">Active Events</span>
           </div>
           <div class="hero-stat">
@@ -64,49 +70,122 @@
         <span class="section-tag">Discovery</span>
         <h2 class="section-title">Upcoming <span class="text-neon-blue">Events</span></h2>
       </div>
-      
-      <div class="filter-actions d-flex gap-2">
-        <select class="form-control form-control-sm bg-dark border-secondary text-white">
-          <option>Category</option>
-          <option>Music</option>
-          <option>Tech</option>
-          <option>Private</option>
-        </select>
-      </div>
     </div>
 
-    <div class="events-grid stagger">
-      <div class="event-card">
-        <div class="event-card-image">
-          <div class="event-category-badge badge-conference">Conference</div>
-          <div class="availability-badge badge-available">Available</div>
-          <div class="event-card-image-placeholder">
-            <i class="bi bi-mic text-white opacity-25"></i>
-          </div>
-        </div>
-        
-        <div class="event-card-body">
-          <h3 class="event-card-title">Corporate Tech Summit</h3>
-          <div class="event-card-meta">
-            <div class="event-meta-item">
-              <i class="bi bi-calendar-event icon"></i>
-              June 15, 2026
+    <% if (typeof events !== 'undefined' && events.length > 0) { %>
+      <div class="events-grid stagger">
+        <% events.forEach(event => { %>
+          <% const available = event.Capacity - (event.Bookings || 0); %>
+          <% const isSoldOut = available <= 0; %>
+          <% const isLimited = available > 0 && available <= 20; %>
+          <div class="event-card" data-category="<%= event.Category %>" data-name="<%= event.Name %>">
+            <div class="event-card-image">
+              <div class="event-card-image-placeholder">
+                <% if (event.Category === 'CORPORATE') { %>🏢
+                <% } else if (event.Category === 'WORKSHOP') { %>🛠️
+                <% } else if (event.Category === 'FESTIVAL') { %>🎉
+                <% } else { %>🎟️<% } %>
+              </div>
+              <span class="event-category-badge <%= event.Category === 'CORPORATE' ? 'badge-conference' : event.Category === 'FESTIVAL' ? 'badge-festival' : event.Category === 'WORKSHOP' ? 'badge-workshop' : 'badge-private' %>">
+                <%= event.Category %>
+              </span>
+              <span class="availability-badge <%= isSoldOut ? 'badge-sold-out' : isLimited ? 'badge-limited' : 'badge-available' %>">
+                <%= isSoldOut ? 'Sold Out' : isLimited ? 'Limited' : 'Available' %>
+              </span>
             </div>
-            <div class="event-meta-item">
-              <i class="bi bi-geo-alt icon"></i>
-              Sandton, JHB
+            <div class="event-card-body">
+              <div class="event-card-title"><%= event.Name %></div>
+              <div class="event-card-meta">
+                <div class="event-meta-item">
+                  <i class="fa-solid fa-calendar icon"></i>
+                  <%= new Date(event.Date).toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                </div>
+                <div class="event-meta-item">
+                  <i class="fa-solid fa-users icon"></i>
+                  <%= available %> / <%= event.Capacity %> spots left
+                </div>
+                <div class="event-meta-item">
+                  <i class="fa-solid fa-tag icon"></i>
+                  R <%= (event.TicketPrice || 0).toFixed(2) %> per ticket
+                </div>
+              </div>
+              <div class="event-card-price">
+                <span class="price-amount">R <%= (event.TicketPrice || 0).toFixed(2) %></span>
+                <a href="/events/<%= event._id %>" class="btn btn-ghost btn-sm">View Details</a>
+              </div>
             </div>
           </div>
-          
-          <div class="event-card-price">
-            <span class="price-amount">R450.00</span>
-            <a href="/events" class="btn btn-ghost btn-sm">View Details</a>
-          </div>
-        </div>
+        <% }) %>
       </div>
+    <% } else { %>
+      <div style="text-align: center; padding: 4rem; color: var(--text-secondary);">
+        <p>No upcoming events at the moment. <a href="/events" style="color: var(--neon-purple);">Check back soon</a></p>
       </div>
+    <% } %>
 
   </div>
 </section>
+
+<script>
+const allEventsData = <%- JSON.stringify(
+  (events || []).map(e => ({
+    id: e._id,
+    name: e.Name,
+    category: e.Category,
+    date: e.Date,
+    capacity: e.Capacity,
+    bookings: e.Bookings || 0,
+    price: e.TicketPrice || 0
+  }))
+) %>;
+
+function searchEvents() {
+  const search = document.getElementById('heroSearch').value.toLowerCase().trim();
+  const resultsBox = document.getElementById('heroSearchResults');
+  const resultsGrid = document.getElementById('heroSearchResultsGrid');
+  const noResults = document.getElementById('heroNoResults');
+
+  if (!search) {
+    resultsBox.style.display = 'none';
+    return;
+  }
+
+  const filtered = allEventsData.filter(e => e.name.toLowerCase().includes(search));
+  resultsBox.style.display = 'block';
+  noResults.style.display = filtered.length === 0 ? 'block' : 'none';
+  resultsGrid.style.display = filtered.length === 0 ? 'none' : '';
+
+  resultsGrid.innerHTML = filtered.map(e => {
+    const available = e.capacity - e.bookings;
+    const isSoldOut = available <= 0;
+    const isLimited = available > 0 && available <= 20;
+    const badge = isSoldOut ? 'badge-sold-out' : isLimited ? 'badge-limited' : 'badge-available';
+    const badgeText = isSoldOut ? 'Sold Out' : isLimited ? 'Limited' : 'Available';
+    const catBadge = e.category === 'CORPORATE' ? 'badge-conference' : e.category === 'FESTIVAL' ? 'badge-festival' : e.category === 'WORKSHOP' ? 'badge-workshop' : 'badge-private';
+    const icon = e.category === 'CORPORATE' ? '🏢' : e.category === 'WORKSHOP' ? '🛠️' : e.category === 'FESTIVAL' ? '🎉' : '🎟️';
+    const dateStr = new Date(e.date).toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' });
+    return `
+      <div class="event-card">
+        <div class="event-card-image">
+          <div class="event-card-image-placeholder">${icon}</div>
+          <span class="event-category-badge ${catBadge}">${e.category}</span>
+          <span class="availability-badge ${badge}">${badgeText}</span>
+        </div>
+        <div class="event-card-body">
+          <div class="event-card-title">${e.name}</div>
+          <div class="event-card-meta">
+            <div class="event-meta-item"><i class="fa-solid fa-calendar icon"></i> ${dateStr}</div>
+            <div class="event-meta-item"><i class="fa-solid fa-users icon"></i> ${available} / ${e.capacity} spots left</div>
+            <div class="event-meta-item"><i class="fa-solid fa-tag icon"></i> R ${(e.price || 0).toFixed(2)} per ticket</div>
+          </div>
+          <div class="event-card-price">
+            <span class="price-amount">R ${(e.price || 0).toFixed(2)}</span>
+            <a href="/events/${e.id}" class="btn btn-ghost btn-sm">View Details</a>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+</script>
 
 <%- include('partials/footer') %>
