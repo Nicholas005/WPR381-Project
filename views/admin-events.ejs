@@ -50,6 +50,10 @@
                                         '<%= new Date(event.Date).toISOString().split('T')[0] %>',
                                         '<%= event.Capacity %>'
                                     )">Edit</button>
+                                
+                                <a href="/admin/events/<%= event._id %>/attendees" class="btn btn-sm btn-outline">
+                                    Attendees
+                                </a>
                                 <form action="/admin/events/<%= event._id %>/delete" method="POST" style="display:inline;">
                                     <button type="submit" class="btn btn-sm btn-ghost btn-delete">Delete</button>
                                 </form>
