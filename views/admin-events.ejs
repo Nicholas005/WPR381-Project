@@ -14,7 +14,7 @@
             <h2 class="hero-title-line2 admin-title">Manage Events</h2>
         </div>
         
-        <button class="btn btn-primary btn-xl">
+        <button class="btn btn-primary btn-xl" onclick="openModal('createEventModal')">
             CREATE NEW EVENT
         </button>
     </div>
@@ -25,30 +25,134 @@
                 <tr>
                     <th>Event Name</th>
                     <th>Category</th>
+                    <th>Date</th>
+                    <th>Capacity</th>
+                    <th>Available</th>
                     <th style="text-align: right;">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Tech Gala 2025</td>
-                    <td>
-                        <span class="float-badge-available">CORPORATE</span>
-                    </td>
-                    <td class="action-btn-group">
-                        <button class="btn btn-sm btn-ghost">Edit</button>
-                        <button class="btn btn-sm btn-ghost btn-delete">Delete</button>
-                    </td>
-                </tr>
+                <% if (events && events.length > 0) { %>
+                    <% events.forEach(event => { %>
+                        <tr>
+                            <td><%= event.Name || event.Category %></td>
+                            <td>
+                                <span class="float-badge-available"><%= event.Category %></span></td>
+                            <td><%= new Date(event.Date).toLocaleDateString() %></td>
+                            <td><%= event.Capacity %></td>
+                            <td><%= event.Capacity - (event.Bookings || 0) %> / <%= event.Capacity %></td>
+                            <td class="action-btn-group">
+                                <button class="btn btn-sm btn-ghost" 
+                                    onclick="openEditModal(
+                                        '<%= event._id %>',
+                                        '<%= event.Name %>',
+                                        '<%= event.Category %>',
+                                        '<%= new Date(event.Date).toISOString().split('T')[0] %>',
+                                        '<%= event.Capacity %>'
+                                    )">Edit</button>
+                                <form action="/admin/events/<%= event._id %>/delete" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-ghost btn-delete">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--textSecondary);">
+                            No events found in the database.
+                        </td>
+                    </tr>
+                <% } %>
             </tbody>
         </table>
     </div>
 
-    <% if (typeof events === 'undefined' || events.length === 0) { %>
-        <div class="empty-state" style="text-align: center; padding: 4rem; color: var(--textSecondary);">
-            <p>No events found in the database.</p>
-        </div>
-    <% } %>
-
 </main>
+
+<!-- Create Event Modal -->
+<div id="createEventModal" class="modal-bg">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>Create New Event</h3>
+            <button onclick="closeModal('createEventModal')" class="modal-close">&times;</button>
+        </div>
+        <form action="/admin/events" method="POST">
+            <div class="form-group">
+                <label>Event Name</label>
+                <input type="text" name="name" class="form-control" required placeholder="e.g. Tech Gala 2026" />
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category" class="form-control" required>
+                    <option value="">-- Select Category --</option>
+                    <option value="CORPORATE">Corporate</option>
+                    <option value="WORKSHOP">Workshop</option>
+                    <option value="FESTIVAL">Festival</option>
+                    <option value="PRIVATE">Private</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" name="date" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Capacity</label>
+                <input type="number" name="capacity" class="form-control" required min="1" placeholder="e.g. 200" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="closeModal('createEventModal')" class="btn btn-ghost">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create Event</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Event Modal -->
+<div id="editEventModal" class="modal-bg">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>Edit Event</h3>
+            <button onclick="closeModal('editEventModal')" class="modal-close">&times;</button>
+        </div>
+        <form id="editEventForm" action="" method="POST">
+            <div class="form-group">
+                <label>Event Name</label>
+                <input type="text" name="name" id="editName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category" id="editCategory" class="form-control" required>
+                    <option value="CORPORATE">Corporate</option>
+                    <option value="WORKSHOP">Workshop</option>
+                    <option value="FESTIVAL">Festival</option>
+                    <option value="PRIVATE">Private</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" name="date" id="editDate" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Capacity</label>
+                <input type="number" name="capacity" id="editCapacity" class="form-control" required min="1" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="closeModal('editEventModal')" class="btn btn-ghost">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openEditModal(id, name, category, date, capacity) {
+    document.getElementById('editEventForm').action = '/admin/events/' + id + '/edit';
+    document.getElementById('editName').value = name;
+    document.getElementById('editCategory').value = category;
+    document.getElementById('editDate').value = date;
+    document.getElementById('editCapacity').value = capacity;
+    openModal('editEventModal');
+}
+</script>
 
 <%- include('partials/footer') %>

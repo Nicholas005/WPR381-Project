@@ -28,6 +28,7 @@ app.use('/auth', require("./routes/authRoutes"))            //User Authenticatio
 app.use('/admin/events', require("./routes/eventRoutes"))          //Event Management
 app.use('/dashboard', require("./routes/dashboardRoutes"))  //Booking & Dashboard
 app.use('/contact', require("./routes/contactRoutes"))     //Contact / Enquiries
+app.use('/bookings', require('./routes/bookingRoutes'))
 
 // Error handling
 app.use(errorMiddleware.notFound)

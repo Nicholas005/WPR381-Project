@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const { type } = require("node:os");
 
 const EventSchema = new mongoose.Schema({
+  Name:     { type: String, required: true },
   Capacity: { type: Number, required: true },
-  Bookings: { type: Number, default: 0 },               //sets the default to 0 as a event should star with 0 bookings made, 
-  Date:     { type: Date,   required: true },           //but the admin can maybe give bookings to manditory participants
+  Bookings: { type: Number, default: 0 },
+  Date:     { type: Date,   required: true },
   Category: { type: String, required: true }
 });
 
