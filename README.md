@@ -133,7 +133,7 @@ smart-event-platform/
 ├── .gitignore
 ├── Connection.js
 ├── README.md
-├── homePapge.jpeg
+├── homePage.jpeg
 ├── adminPage.jpeg
 ├── contactPage.jpeg
 ├── bookingPage.jpeg
