@@ -62,8 +62,8 @@ Advanced Events (Pty) Ltd previously relied on manual spreadsheets and disconnec
 | Nicholas Vronka | 601596 | Team Lead / Project Coordinator/ Full Stack Supporter | Project planning, integration, Git management, README, supporting other team members as needed |
 | Richo Labuschagne | 601759 | Backend Developer | Express routes, controllers, middleware, API logic |
 | Tshiamo Maise | 602178 | Frontend Developer | EJS views, CSS styling, layout, responsiveness |
-| Michael Brian Cheyne | 602441 | Database Engineer | Mongoose schemas, relationships, seed data |
-| Clarissa Bierman | 602008 | Security / DevOps Engineer | Auth middleware, bcrypt, RBAC, session handling, .env |
+| Michael Brian Cheyne | 602441 | Database Engineer | Mongoose schemas, relationships, seed data, connection set-up, database creation, testing |
+| Clarissa Bierman | 602008 | Security / DevOps Engineer | Auth middleware, bcrypt, RBAC, session handling, .env, Backend developer support |
 
 ---
 
