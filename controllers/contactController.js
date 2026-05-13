@@ -11,7 +11,6 @@ exports.postContact = async (req, res, next) => {
             UserID: req.user.id,
             Enquiry: req.body.message
         }); 
-        await Enquiry.save();
 
         res.render("contact", {success: "Your message has been sent successfully!"})
     } catch (err) {
