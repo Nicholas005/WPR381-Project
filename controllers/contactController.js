@@ -6,14 +6,12 @@ exports.getContact = (req, res) => {
 
 exports.postContact = async (req, res, next) => {
     try {
-        // Problem with saving this due to how databse is setup
-        // { name, email, subject, message, isResolved, submittedAt }
+        
         await Enquiry.create({
-            name: req.body.name,
-            email: req.body.email,
-            subject: req.body.subject,
-            message: req.body.message
-        });
+            UserID: req.user.id,
+            Enquiry: req.body.message
+        }); 
+        await Enquiry.save();
 
         res.render("contact", {success: "Your message has been sent successfully!"})
     } catch (err) {
