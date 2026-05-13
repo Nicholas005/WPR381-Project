@@ -71,49 +71,78 @@ Advanced Events (Pty) Ltd previously relied on manual spreadsheets and disconnec
 
 ```
 smart-event-platform/
+├── .vs/ 
+│   ├── WPR381-Project 
+│        ├── FileContentIndex 
+│            ├── 039e9610-283d-48ed-9305-26e55a7d5d9d.vsidx
+│            ├── 76ef6ef5-aa0b-4daa-b32f-2108da0f4453.vsidx
+│            ├── 91a3fec0-fd68-4467-8cec-514080a94226.vsidx	
+│            └── b9902c78-7b6e-4b73-890a-5b5dc9569593.vsidx
+│        └── v17 
+│            ├── .wsuo
+│            └── DocumentLayout.json
+│   ├── ProjectSettings.json
+│   ├── VSWorkSpaceState.json 
+│   └── slnx.sqlite
+├── Schemas/ 
+│   ├── Booking.js
+│   ├── Enquiries.js
+│   ├── Event.js
+│   └── Users.js
 ├── controllers/
-│   ├── authController.js         # Registration, login, logout logic
-│   ├── eventController.js        # Event CRUD operations
-│   ├── bookingController.js      # Ticket booking & capacity validation
-│   ├── dashboardController.js    # Admin analytics & user history
-│   └── contactController.js     # Enquiry submission & management
+│   ├── authController.js
+│   ├── bookingController.js
+│   ├── contactController.js
+│   ├── dashboardController.js
+│   ├── eventController.js
+│   └── homeController.js
 ├── middleware/
-│   ├── authMiddleware.js         # Verify logged-in session/JWT
-│   ├── adminMiddleware.js        # Restrict routes to admin role
-│   └── errorMiddleware.js        # Global error handling
-├── models/
-│   ├── User.js                   # User schema (name, email, password, role)
-│   ├── Event.js                  # Event schema (title, date, category, capacity)
-│   ├── Booking.js                # Booking schema (user ref, event ref, tickets)
-│   └── Contact.js                # Enquiry schema (name, email, message)
-├── routes/
-│   ├── authRoutes.js
-│   ├── eventRoutes.js
-│   ├── bookingRoutes.js
-│   ├── dashboardRoutes.js
-│   └── contactRoutes.js
-├── views/
+│   ├── adminMiddleware.js
+│   ├── authMiddleware.js
+│   ├── errorMiddleware.js 
+│   └── localsMiddleware.js
+├── views/ 
 │   ├── partials/
 │   │   ├── header.ejs
 │   │   └── footer.ejs
-│   ├── index.ejs                 # Home / Event Listing Page
-│   ├── auth.ejs                  # Login & Registration Page
-│   ├── admin-events.ejs          # Event Management Page (Admin)
-│   ├── dashboard.ejs             # Booking & Dashboard Page
-│   └── contact.ejs              # Contact / Enquiry Management Page
-├── public/
-│   ├── css/
-│   │   └── styles.css
-│   └── js/
-│       └── main.js
-├── config/
-│   └── db.js                     # MongoDB connection
-├── .env                          # Environment variables (not committed)
-├── .env.example                  # Example env file (committed)
+│   ├── admin-event-attendees.ejs
+│   ├── admin-event.ejs
+│   ├── auth.ejs
+│   ├── contact.ejs
+│   ├── dashboard-admin.ejs
+│   ├── dashboard-user.ejs
+│   ├── error.ejs
+│   ├── events.ejs
+│   ├── index.ejs
+│   ├── login.ejs
+│   └── register.ejs
+├── public/ 
+│   ├── main.js
+│   └── style.css
+├── routes/
+│   ├── authRoutes.js
+│   ├── bookingRoutes.js
+│   ├── contactRoutes.js
+│   ├── dashboardRoutes.js
+│   ├── eventRoutes.js
+│   └── homeRoutes.js
+├── utils/
+│   ├── passwordHelper.js
+│   └── tokenHelper.js
+├── .env.example
 ├── .gitignore
-├── app.js                        # Express app setup
-├── server.js                     # Server entry point
-└── README.md
+├── Connection.js
+├── README.md
+├── homePapge.jpeg
+├── adminPage.jpeg
+├── contactPage.jpeg
+├── bookingPage.jpeg
+├── loginPage.jpeg
+├── app.js
+├── connection test.js
+├── package-lock.json
+├── package.json
+└── server.js
 ```
 
 ---
@@ -282,22 +311,27 @@ docs: update README setup section
 
 ## 🖼️ Screenshots
 
-> *(Add screenshots of your running application here)*
 
 | Page | Preview |
 |---|---|
-| Home / Event Listing | *(screenshot)* |
-| Login & Register | *(screenshot)* |
-| Admin Event Management | *(screenshot)* |
-| Booking Dashboard | *(screenshot)* |
-| Contact Page | *(screenshot)* |
+| Home / Event Listing | ![Image Alt](https://github.com/Nicholas005/WPR381-Project/blob/1ea8a49491a050d52db5e61106de7886071abb8a/homePage.jpg) |
+| Login & Register | ![Image Alt](https://github.com/Nicholas005/WPR381-Project/blob/1ea8a49491a050d52db5e61106de7886071abb8a/loginPage.jpg) |
+| Admin Event Management | ![Image Alt](https://github.com/Nicholas005/WPR381-Project/blob/1ea8a49491a050d52db5e61106de7886071abb8a/adminPage.jpg) |
+| Booking Dashboard | ![Image Alt](https://github.com/Nicholas005/WPR381-Project/blob/1ea8a49491a050d52db5e61106de7886071abb8a/bookingPage.jpg) |
+| Contact Page | ![Image Alt](https://github.com/Nicholas005/WPR381-Project/blob/1ea8a49491a050d52db5e61106de7886071abb8a/contactPage.jpg) |
 
 ---
 
 ## 💡 Reflection
 
-> *(Optional — complete as a team before submission)*
-TBD
+Building this platform gave us practical experience implementing an industry-standard MVC architecture under real-world constraints. Key learning outcomes included:
+
+- Designing and enforcing role-based middleware in Express.js
+- Managing relational-like data structures in a NoSQL MongoDB environment using Mongoose references
+- Preventing race conditions in ticket capacity using atomic validation logic
+- Collaborating effectively as a team using Git branching strategies and pull requests
+
+Challenges we encountered included handling concurrent booking requests and structuring EJS partials for code reuse. These were resolved through team code reviews and iterative refactoring.
 
 ---
 
@@ -309,4 +343,4 @@ AI-assisted tools were used for learning purposes only. All code has been unders
 
 ---
 
-*Smart Event Management & Ticketing Platform — WPR381 Project 2026 | Belgium Campus ITversity*
+*Smart Event Management & Ticketing Platform — WPR381 Project 2026
