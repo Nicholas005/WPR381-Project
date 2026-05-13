@@ -1,4 +1,6 @@
 const Event = require('../Schemas/Events');
+const Booking = require('../Schemas/Bookings');
+const User = require('../Schemas/Users');
 
 exports.getEvent = async (req, res, next) => {
     try {
@@ -44,6 +46,56 @@ exports.postEditEvent = async (req, res, next) => {
             Name: name, Category: category, Date: date, Capacity: capacity
         });
         res.redirect('/admin/events');
+    } catch (err) {
+        next(err);
+    }
+}
+
+exports.getEventAttendees = async (req, res, next) => {
+    try {
+        const event = await Event.findById(req.params.id);
+        const bookings = await Booking.find({ EventID: req.params.id }).populate('UserID');
+        res.render('admin-event-attendees', { event, bookings });
+    } catch (err) {
+        next(err);
+    }
+}
+
+exports.adminCancelBooking = async (req, res, next) => {
+    try {
+        const booking = await Booking.findById(req.params.bookingId);
+        if (!booking) return next(new Error('Booking not found'));
+
+        await Event.findByIdAndUpdate(booking.EventID, {
+            $inc: { Bookings: -booking.Tickets }
+        });
+
+        await Booking.findByIdAndDelete(req.params.bookingId);
+        res.redirect('/admin/events/' + req.params.id + '/attendees');
+    } catch (err) {
+        next(err);
+    }
+}
+
+exports.adminEditBooking = async (req, res, next) => {
+    try {
+        const booking = await Booking.findById(req.params.bookingId);
+        const newTickets = parseInt(req.body.tickets);
+        const ticketDifference = newTickets - booking.Tickets;
+
+        const event = await Event.findById(req.params.id);
+        const available = event.Capacity - event.Bookings;
+
+        if (ticketDifference > available) {
+            return res.redirect('/admin/events/' + req.params.id + '/attendees?error=not-enough-spots');
+        }
+
+        await Booking.findByIdAndUpdate(req.params.bookingId, { Tickets: newTickets });
+        await Event.findByIdAndUpdate(req.params.id, {
+            $inc: { Bookings: ticketDifference }
+        });
+
+        res.redirect('/admin/events/' + req.params.id + '/attendees');
     } catch (err) {
         next(err);
     }
