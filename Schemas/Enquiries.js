@@ -4,10 +4,11 @@ const { type } = require("node:os");
 const EnquirySchema = new mongoose.Schema({
   UserID: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",          // References the User collection like a foreign key from an ERD
+    ref: "Users",          // References the User collection like a foreign key from an ERD
     required: true
   },
   Enquiry: { type: String, required: true },
+  Subject: { type: String, default: 'General Enquiry' },
   createdAt: { type: Date, default: Date.now }
 });
 

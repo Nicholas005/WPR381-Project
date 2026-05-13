@@ -1,6 +1,17 @@
 <%- include('partials/header') %>
 
 <main class="container" style="position: relative; z-index: 1; padding-bottom: 4rem;">
+    <% const urlError = typeof query !== 'undefined' ? query.error : null; %>
+    <% if (urlError === 'already-booked') { %>
+        <div style="background: rgba(255,170,0,0.12); border: 1px solid rgba(255,170,0,0.45); color: #ffcc44; padding: 0.9rem 1.2rem; border-radius: 10px; margin: 1rem 0 0; font-size: 0.9rem; text-align:center;">
+            ⚠ You have already booked this event. Visit your <a href="/dashboard/user" style="color:var(--accent);">dashboard</a> to manage your booking.
+        </div>
+    <% } %>
+    <% if (urlError === 'not-enough-spots') { %>
+        <div style="background: rgba(255,60,60,0.12); border: 1px solid rgba(255,60,60,0.4); color: #ff6b6b; padding: 0.9rem 1.2rem; border-radius: 10px; margin: 1rem 0 0; font-size: 0.9rem; text-align:center;">
+            Not enough spots available for that many tickets.
+        </div>
+    <% } %>
 
     <!-- Page Header -->
     <div class="hero-section-center" style="margin-top: 60px; margin-bottom: 2.5rem;">

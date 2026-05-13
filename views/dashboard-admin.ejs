@@ -28,17 +28,79 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="table-container" style="padding: 2rem; border-left: 4px solid #00ff88;">
-            <small style="color: #00ff88; letter-spacing: 1px;">TOTAL BOOKINGS</small>
+        <div class="table-container" style="padding: 2rem; border-left: 4px solid #6c63ff;">
+            <small style="color: #6c63ff; letter-spacing: 1px;">TOTAL BOOKINGS</small>
             <h2 style="color: white; margin-top: 5px;"><%= totalBookings || 0 %></h2>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="table-container" style="padding: 2rem; border-left: 4px solid white;">
-            <small style="color: white; letter-spacing: 1px;">LIVE EVENTS</small>
+        <div class="table-container" style="padding: 2rem; border-left: 4px solid #A855F7;">
+            <small style="color: #A855F7; letter-spacing: 1px;">LIVE EVENTS</small>
             <h2 style="color: white; margin-top: 5px;"><%= totalEvents || 0 %></h2>
         </div>
     </div>
+</div>
+
+<div class="row g-4 mt-2 reveal">
+<div class="col-md-6">
+    <div class="table-container"
+     style="padding: 2rem; border-left: 4px solid #C084FC;">
+      <h4 style="color: #C084FC; margin-bottom: 1.25rem;">Most Booked Events</h4>
+      <% if (popularEvents && popularEvents.length > 0) { %>
+        <table style="width:100%; border-collapse: collapse;">
+          <thead>
+            <tr style="color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 0.1em;">
+              <th style="padding: 0.5rem 1rem; text-align:left;">EVENT</th>
+              <th style="padding: 0.5rem 1rem; text-align:right;">TICKETS SOLD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% popularEvents.forEach((e, i) => { %>
+              <tr style="border-top: 1px solid rgba(255,255,255,0.06);">
+                <td style="padding: 0.75rem 1rem; color: white;"><%= i+1 %>. <%= e.name %></td>
+                <td style="padding: 0.75rem 1rem; color: var(--accent); text-align:right; font-weight:700;"><%= e.totalTickets %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p style="color: var(--text-secondary);">No bookings yet.</p>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4 mt-2 reveal">
+    <div class="col-md-6">
+    <div class="table-container" 
+         style="padding: 2rem; border-left: 4px solid #4C1D95;">
+      <h4 style="color: #4C1D95; margin-bottom: 1.25rem;">User Enquiries</h4>
+      <% if (enquiries && enquiries.length > 0) { %>
+        <table style="width:100%; border-collapse: collapse;">
+          <thead>
+            <tr style="color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 0.1em;">
+              <th style="padding: 0.5rem 1rem; text-align:left;">USER</th>
+              <th style="padding: 0.5rem 1rem; text-align:left;">SUBJECT</th>
+              <th style="padding: 0.5rem 1rem; text-align:left;">MESSAGE</th>
+              <th style="padding: 0.5rem 1rem; text-align:left;">DATE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% enquiries.forEach(q => { %>
+              <tr style="border-top: 1px solid rgba(255,255,255,0.06);">
+                <td style="padding: 0.75rem 1rem; color: white;"><%= q.UserID ? q.UserID.Name : 'Unknown' %></td>
+                <td style="padding: 0.75rem 1rem; color: var(--accent);"><%= q.Subject || '—' %></td>
+                <td style="padding: 0.75rem 1rem; color: var(--text-secondary); max-width: 320px;"><%= q.Enquiry %></td>
+                <td style="padding: 0.75rem 1rem; color: var(--text-secondary); white-space:nowrap;"><%= new Date(q.createdAt).toLocaleDateString('en-ZA') %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p style="color: var(--text-secondary);">No enquiries submitted yet.</p>
+      <% } %>
+    </div>
+  </div>
 </div>
 
     <div class="row g-4 reveal">

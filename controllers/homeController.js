@@ -13,7 +13,7 @@ exports.getHome = async (req, res, next) => {
 exports.getEvents = async (req, res, next) => {
     try {
         const events = await Event.find();
-        res.render("events", { title: "Events", events });
+        res.render("events", { title: "Events", events, query: req.query });
     } catch (err) {
         next(err);
     }
